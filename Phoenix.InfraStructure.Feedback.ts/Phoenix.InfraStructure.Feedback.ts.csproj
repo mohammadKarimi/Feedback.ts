@@ -18,7 +18,7 @@
     <IISExpressUseClassicPipelineMode />
   </PropertyGroup>
   <ItemGroup>
-    <Content Include="index.html" />
+    <Content Include="example\index.html" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <Content Include="Scripts\jQuery\plugins\feedback\feedback.js" />
     <Content Include="Scripts\jQuery\plugins\feedback\html2canvas.js" />
@@ -33,7 +33,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="Scripts\feedback\feedback.ts" />
+    <TypeScriptCompile Include="src\feedback\feedback.ts" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">12.0</VisualStudioVersion>
