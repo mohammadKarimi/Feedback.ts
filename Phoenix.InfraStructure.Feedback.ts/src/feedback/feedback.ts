@@ -1,4 +1,5 @@
 ﻿/// <reference path="browserinfo/browserinfo.ts" />
+/// <reference path="../jquery.d.ts" />
 
 module phoenix {
    export class feedbackContent {
@@ -32,14 +33,15 @@ module phoenix {
       private   _fbOptions: feedbackOptions;
         private _$element: string;
         private _postData: browserInfo = browserInfo.getInformation();
-        constructor($element: string, fbOptions: feedbackOptions) {
+       constructor($element: string, fbOptions: feedbackOptions) {
+           $("#" + $element).on("click", (event: JQueryEventObject) => this.openFeedback(event));
             this._$element = $element;
             this._fbOptions = fbOptions
         }
-
-        getf(): browserInfo {
-            return this._postData;
-        }
+       public openFeedback(event: JQueryEventObject): void {
+           var htmlAnchorElement: HTMLAnchorElement = <HTMLAnchorElement> event.target;
+           var $element: JQuery = $(event.target);
+       }
     }
 }
 

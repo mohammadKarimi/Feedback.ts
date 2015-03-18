@@ -1,4 +1,5 @@
 ﻿/// <reference path="browserinfo/browserinfo.ts" />
+/// <reference path="../jquery.d.ts" />
 var __extends = this.__extends || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
@@ -40,12 +41,17 @@ var phoenix;
     phoenix.feedbackOptions = feedbackOptions;
     var feedback = (function () {
         function feedback($element, fbOptions) {
+            var _this = this;
             this._postData = browserInfo.getInformation();
+            $("#" + $element).on("click", function (event) {
+                return _this.openFeedback(event);
+            });
             this._$element = $element;
             this._fbOptions = fbOptions;
         }
-        feedback.prototype.getf = function () {
-            return this._postData;
+        feedback.prototype.openFeedback = function (event) {
+            var htmlAnchorElement = event.target;
+            var $element = $(event.target);
         };
         return feedback;
     })();
