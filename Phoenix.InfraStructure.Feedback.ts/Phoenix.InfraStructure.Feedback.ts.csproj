@@ -22,18 +22,26 @@
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <Content Include="Scripts\jQuery\plugins\feedback\feedback.js" />
     <Content Include="Scripts\jQuery\plugins\feedback\html2canvas.js" />
-    <Content Include="web.config" />
+    <Content Include="src\feedback\browserInfo\browserInfo.js" />
+    <Content Include="src\feedback\feedback.js" />
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="src\feedback\browserInfo\browserInfo.ts" />
+    <TypeScriptCompile Include="src\feedback\feedback.ts" />
+    <TypeScriptCompile Include="src\jquery.d.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="src\feedback\feedback.js.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="web.config" />
+    <Content Include="src\feedback\browserInfo\browserInfo.js.map" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>
     <None Include="web.Release.config">
       <DependentUpon>web.config</DependentUpon>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <TypeScriptCompile Include="src\feedback\feedback.ts" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">12.0</VisualStudioVersion>

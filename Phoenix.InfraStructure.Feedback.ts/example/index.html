@@ -4,12 +4,18 @@
 <head>
     <meta charset="utf-8" />
     <title>TypeScript HTML App</title>
-    <link rel="stylesheet" href="app.css" type="text/css" />
-    <script src="app.js"></script>
 </head>
 <body>
     <h1>TypeScript HTML App</h1>
 
-    <div id="content"></div>
+    <div id="content">content</div>
+    <script src="../Scripts/jquery-1.10.2.min.js"></script>
+    <script src="../src/feedback/browserInfo/browserInfo.js"></script>
+    <script src="../src/feedback/feedback.js"></script>
+    <script>
+        console.log(phoenix);
+        var ins = new phoenix.feedback("content", {});
+        console.log(ins.getf());
+    </script>
 </body>
 </html>
