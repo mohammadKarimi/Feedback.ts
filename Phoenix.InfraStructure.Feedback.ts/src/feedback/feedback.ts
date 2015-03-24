@@ -2,6 +2,24 @@
 /// <reference path="../jquery.d.ts" />
 ///185
 module phoenix {
+    export class browserInfo {
+        appCodeName: string = navigator.appCodeName;
+        appName: string = navigator.appName;
+        appVersion: string = navigator.appVersion;
+        cookieEnabled: boolean = navigator.cookieEnabled;
+        onLine: boolean = navigator.onLine;
+        platform: string = navigator.platform;
+        userAgent: string = navigator.userAgent;
+        plugins: Array<string>;
+        currentUrl: string = document.URL;
+        html = $('html').html().replace($('#fb-module').html(), '');
+        static getInformation(): browserInfo {
+            for (var plugin in navigator.plugins) {
+                this.prototype.plugins.push(navigator.plugins[plugin].name);
+            }
+            return new this;
+        }
+    }
     class feedbackConvas {
         constructor(private documentWidth: number, private documentHeight: number) {
             this.$fb_convasSelector = $("#fb-canvas");
@@ -132,7 +150,7 @@ module phoenix {
         html2ConvasSupport: boolean = true; //!!window.HTMLCanvasElement; FIXME
     }
     export class feedback {
-        private _postData: browserInfo = phoenix.browserInfo.getInformation();
+        private _postData: browserInfo = browserInfo.getInformation();
         constructor(private $element: string, private fbOptions: feedbackOptions) {
             $("#" + $element).on("click",(event: JQueryEventObject) => this.openFeedback(event));
         }
