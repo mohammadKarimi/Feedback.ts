@@ -22,16 +22,12 @@
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <Content Include="Scripts\jQuery\plugins\feedback\feedback.js" />
     <Content Include="Scripts\jQuery\plugins\feedback\html2canvas.js" />
-    <Content Include="src\feedback\feedback.js" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="src\feedback\feedback.ts" />
-    <TypeScriptCompile Include="src\jquery.d.ts" />
+    <TypeScriptCompile Include="src\feedback.ts" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="src\feedback\feedback.js.map" />
-  </ItemGroup>
-  <ItemGroup>
+    <Content Include="src\templates\description.html" />
     <Content Include="web.config" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>

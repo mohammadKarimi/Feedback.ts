@@ -1,8 +1,7 @@
-﻿/// <reference path="browserinfo/browserinfo.ts" />
-/// <reference path="../jquery.d.ts" />
+﻿/// <reference path="../jquery.d.ts" />
 ///185
 module phoenix {
-    export class browserInfo {
+    class browserInfo {
         appCodeName: string = navigator.appCodeName;
         appName: string = navigator.appName;
         appVersion: string = navigator.appVersion;
@@ -143,7 +142,11 @@ module phoenix {
     export class feedbackOptions extends feedbackContent {
         constructor(public url: string,
             public onStart: any, public onClose: any,
-            contentTemplate: feedbackContent = new feedbackContent("", "", "", "", "")) {
+            contentTemplate: feedbackContent = new feedbackContent(
+                $.get("templates/description.html", function (html) { return html; }),
+                $.get("templates/description.html", function (html) { return html; }),
+                $.get("templates/description.html", function (html) { return html; }),
+                $.get("templates/description.html", function (html) { return html; }), $.get("templates/description.html", function (html) { return html; }))) {
             super(contentTemplate.description, contentTemplate.highlighter, contentTemplate.overview, contentTemplate.submitSuccess, contentTemplate.submitFailor);
         }
 
