@@ -28,10 +28,8 @@
     <TypeScriptCompile Include="src\feedback.ts" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="src\feedback.js" />
     <Content Include="src\templates\description.html" />
     <Content Include="web.config" />
-    <Content Include="src\feedback.js.map" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>

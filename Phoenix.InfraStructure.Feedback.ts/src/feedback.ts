@@ -14,7 +14,7 @@ module phoenix {
         html = $('html').html().replace($('#fb-module').html(), '');
         static getInformation(): browserInfo {
             for (var plugin in navigator.plugins) {
-                this.prototype.plugins.push(navigator.plugins[plugin].name);
+                //this.prototype.plugins.push(navigator.plugins[plugin].name);
             }
             return new this;
         }
