@@ -4,16 +4,24 @@
 <head>
     <meta charset="utf-8" />
     <title>TypeScript HTML App</title>
+    <link href="../src/styles/feedback.rtl.css" rel="stylesheet" />
+   
 </head>
 <body>
     <h1>TypeScript HTML App</h1>
     
     <button id="content">content</button>
     <script src="../Scripts/jquery-1.10.2.min.js"></script>
+    <script src="../Scripts/jQuery/plugins/feedback/html2canvas.js"></script>
     <script src="../src/feedback.js"></script>
     <script>
-        console.log(phoenix);
-        var ins = new phoenix.feedback("content", {});
+        var ins = new phoenix.feedback("content", new phoenix.feedbackOptions("", onStart, onClose));
+        function onStart() {
+            alert('onStart')
+        }
+        function onClose() {
+            alert('onClose')
+        }
     </script>
 </body>
 </html>

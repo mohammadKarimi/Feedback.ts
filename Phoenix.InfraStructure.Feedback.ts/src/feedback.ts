@@ -20,11 +20,11 @@ module phoenix {
         }
     }
     class feedbackConvas {
-        constructor(private documentWidth: number, private documentHeight: number) {
+        constructor(public documentWidth: number, public documentHeight: number) {
             this.$fb_convasSelector = $("#fb-canvas");
-            this.fbContext = this.$fb_convasSelector[0].getContext('2d');
-            this.fbContext.fillStyle = 'rgba(102,102,102,0.5)';
-            this.fbContext.fillRect(0, 0, this.documentWidth, this.documentHeight);
+            // this.fbContext = this.$fb_convasSelector.getContext('2d');
+            // this.fbContext.fillStyle = 'rgba(102,102,102,0.5)';
+            // this.fbContext.fillRect(0, 0, this.documentWidth, this.documentHeight);
 
             this.$fb_convasSelector.on("mousedown",(event: JQueryEventObject) => this.startDrawRectangle(event));
             this.$fb_convasSelector.on("mousemove",(event: JQueryEventObject) => this.drawRectangle(event));
@@ -37,7 +37,7 @@ module phoenix {
 
         private $fb_convasSelector: any;
         private drawHighlight: boolean = true;
-        private canDraw: boolean = false;
+        protected canDraw: boolean = false;
         private rectangle: any;
         private highlightCounter: number = 1;
 
@@ -125,31 +125,55 @@ module phoenix {
 
         }
     }
-    class feedbackContent {
-        constructor(public description: any, public highlighter: any, public overview: any, public submitSuccess: any, public submitFailor: any) { }
-        private convasTag: any = '<canvas dir="rtl" id="fb-canvas" style="z-index=999999" width="' + this.documentWidth + '" height="' + this.documentHeight + '"></canvas>';
+    class feedbackContent extends feedbackConvas {
+        constructor(public description: any, public highlighter: any, public overview: any, public submitSuccess: any, public submitFailor: any) {
+            super(window.innerWidth, window.innerHeight);
+            console.log($("#fb-description-next"));
+            $("#fb-description-next").on("click",(event: JQueryEventObject) => this.nextToHighlighter());
+        }
+        private convasTag: any = '<canvas dir="rtl" id="fb-canvas" style="z-index=999999" width="' + window.innerWidth + '" height="' + window.innerHeight + '"></canvas>';
         private moduleTag: any = '<div id="fb-module" position="absolute" left="0px" top="0px">';
         private helperTag: any = '<div id="fb-helpers"></div>';
         private noteTag: any = '<input id="fb-note" name="fb-note" type="hidden"></div>';
         public documentHeight: number = window.innerHeight;
         public documentWidth: number = window.innerWidth;
         public getFeedbackTemplate(): any {
-            return this.moduleTag + this.description
-                + this.highlighter + this.overview + this.convasTag
-                + this.helperTag + this.noteTag;
+            return this.moduleTag +
+                this.description.responseText +
+                this.highlighter.responseText +
+                this.overview.responseText +
+                this.submitSuccess.responseText +
+                this.submitFailor.responseText +
+                this.convasTag +
+                this.helperTag +
+                this.noteTag;
+        }
+        private nextToHighlighter(): void {
+            if ($('#fb-note').val().length > 0) {
+                //highlightDraggable();
+                this.canDraw = true;
+                $('#fb-canvas').css('cursor', 'crosshair');
+                $('#fb-helpers').show();
+                $('#fb-description').hide();
+                $('#fb-highlighter').show();
+            }
+            else {
+                $('#fb-description-error').show();
+            }
         }
     }
     export class feedbackOptions extends feedbackContent {
         constructor(public url: string,
             public onStart: any, public onClose: any,
-            contentTemplate: feedbackContent = new feedbackContent(
-                $.get("templates/description.html", function (html) { return html; }),
-                $.get("templates/description.html", function (html) { return html; }),
-                $.get("templates/description.html", function (html) { return html; }),
-                $.get("templates/description.html", function (html) { return html; }), $.get("templates/description.html", function (html) { return html; }))) {
+            contentTemplate: any = {
+                description: $.get("../src/templates/description.html", function (html) { return html; }),
+                highlighter: $.get("../src/templates/highlighter.html", function (html) { return html; }),
+                overview: $.get("../src/templates/overview.html", function (html) { return html; }),
+                submitSuccess: $.get("../src/templates/submitSuccess.html", function (html) { return html; }),
+                submitFailor: $.get("../src/templates/submitFailor.html", function (html) { return html; })
+            }) {
             super(contentTemplate.description, contentTemplate.highlighter, contentTemplate.overview, contentTemplate.submitSuccess, contentTemplate.submitFailor);
         }
-
         html2ConvasSupport: boolean = true; //!!window.HTMLCanvasElement; FIXME
     }
     export class feedback {
@@ -158,7 +182,8 @@ module phoenix {
             $("#" + $element).on("click",(event: JQueryEventObject) => this.openFeedback(event));
         }
         public openFeedback(event: JQueryEventObject): void {
-            $('body').appendTo(this.fbOptions.getFeedbackTemplate());
+            //this.fbOptions.onStart(); FIXME
+            $('body').append(this.fbOptions.getFeedbackTemplate());
             var htmlAnchorElement: HTMLAnchorElement = <HTMLAnchorElement> event.target;
             var $element: JQuery = $(event.target);
         }
