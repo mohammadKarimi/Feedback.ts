@@ -39,7 +39,7 @@ module phoenix {
         public isdraged: boolean = false;
 
         private $fb_convasSelector: any;
-        public drawHighlight: boolean = true;
+        protected drawHighlight: boolean = true;
         protected canDraw: boolean = false;
         private rectangle: any;
         private highlightCounter: number = 1;
