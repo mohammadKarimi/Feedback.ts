@@ -1,6 +1,9 @@
 ﻿/// <reference path="../jquery.d.ts" />
-///185
+///186
 module phoenix {
+    interface feedbackCallback {
+        (): void;
+    }
     class browserInfo {
         appCodeName: string = navigator.appCodeName;
         appName: string = navigator.appName;
@@ -25,7 +28,7 @@ module phoenix {
             // this.fbContext = this.$fb_convasSelector.getContext('2d');
             // this.fbContext.fillStyle = 'rgba(102,102,102,0.5)';
             // this.fbContext.fillRect(0, 0, this.documentWidth, this.documentHeight);
-
+             
             this.$fb_convasSelector.on("mousedown",(event: JQueryEventObject) => this.startDrawRectangle(event));
             this.$fb_convasSelector.on("mousemove",(event: JQueryEventObject) => this.drawRectangle(event));
             this.$fb_convasSelector.on("mouseup",(event: JQueryEventObject) => this.finishDrawRectangle(event));
@@ -36,7 +39,7 @@ module phoenix {
         public isdraged: boolean = false;
 
         private $fb_convasSelector: any;
-        private drawHighlight: boolean = true;
+        public drawHighlight: boolean = true;
         protected canDraw: boolean = false;
         private rectangle: any;
         private highlightCounter: number = 1;
@@ -126,17 +129,52 @@ module phoenix {
         }
     }
     class feedbackContent extends feedbackConvas {
-        constructor(public description: any, public highlighter: any, public overview: any, public submitSuccess: any, public submitFailor: any) {
-            super(window.innerWidth, window.innerHeight);
-            console.log($("#fb-description-next"));
-            $("#fb-description-next").on("click",(event: JQueryEventObject) => this.nextToHighlighter());
-        }
         private convasTag: any = '<canvas dir="rtl" id="fb-canvas" style="z-index=999999" width="' + window.innerWidth + '" height="' + window.innerHeight + '"></canvas>';
         private moduleTag: any = '<div id="fb-module" position="absolute" left="0px" top="0px">';
         private helperTag: any = '<div id="fb-helpers"></div>';
         private noteTag: any = '<input id="fb-note" name="fb-note" type="hidden"></div>';
+
         public documentHeight: number = window.innerHeight;
         public documentWidth: number = window.innerWidth;
+
+        constructor(public description: any,
+            public highlighter: any,
+            public overview: any,
+            public submitSuccess: any,
+            public submitFailor: any,
+            public onClose: feedbackCallback) {
+            super(window.innerWidth, window.innerHeight);
+            $(document).on("click", "#fb-description-next",(event: JQueryEventObject) => this.nextToHighlighter());
+            $(document).on("click", "#fb-highlighter-back",(event: JQueryEventObject) => this.backToDescription());
+            $(document).on("click", "#fb-highlighter-next",(event: JQueryEventObject) => this.nextToOverview());
+            $(document).on('click', '.fb-sethighlight',(el: JQuery) => this.setHighlight(el));
+            $(document).on('click', '.fb-setblackout',(el: JQuery) => this.setBlackout(el));
+        }
+        private closeFeedbackModule() {
+            this.canDraw = false;
+            //$(document).off('mouseenter mouseleave', '.fb-helper');
+            //$(document).off('mouseup keyup');
+            //$(document).off('mousedown', '.fb-setblackout');
+            //$(document).off('mousedown', '.fb-sethighlight');
+            //$(document).off('mousedown click', '#fb-close');
+            //$(document).off('mousedown', '#fb-canvas');
+            //$(document).off('click', '#fb-highlighter-next');
+            //$(document).off('click', '#fb-highlighter-back');
+            //$(document).off('click', '#fb-description-next');
+            //$(document).off('click', '#fb-overview-back');
+            //$(document).off('mouseleave', 'body');
+            //$(document).off('mouseenter', '.fb-helper');
+            //$(document).off('selectstart dragstart', document);
+            //$('#fb-module').off('click', '.fb-close,.fb-close-btn');
+            //$(document).off('click', '#fb-submit');
+            //$('[data-highlighted="true"]').removeAttr('data-highlight-id').removeAttr('data-highlighted');
+            //$('#fb-module').remove();
+            //$('.fb-btn').show();
+            //$(document).off('click', "#fb-browser-info");
+            //$(document).off('click', "#fb-page-info");
+            //$(document).off('click', "#fb-page-structure");
+            this.onClose.call(this);
+        }
         public getFeedbackTemplate(): any {
             return this.moduleTag +
                 this.description.responseText +
@@ -161,10 +199,41 @@ module phoenix {
                 $('#fb-description-error').show();
             }
         }
+        private backToDescription(): void {
+            this.canDraw = false;
+            $('#fb-canvas').css('cursor', 'default');
+            $('#fb-highlighter').hide();
+            $('#fb-description-error').hide();
+            $('#fb-description').show();
+        }
+        private nextToOverview(): void {
+
+        }
+        private backToHighlighter() {
+            this.canDraw = true;
+            $('#fb-canvas').css('cursor', 'crosshair');
+            $('#fb-overview').hide();
+            $('#fb-helpers').show();
+            $('#fb-highlighter').show();
+            $('#fb-overview-error').hide();
+        }
+
+        private setHighlight(el): void {
+            this.drawHighlight = true;
+            $('.fb-sethighlight').addClass('fb-active');
+            $('.fb-setblackout').removeClass('fb-active');
+        }
+
+        private setBlackout(el): void {
+            this.drawHighlight = false;
+            $('.fb-setblackout').addClass('fb-active');
+            $('.fb-sethighlight').removeClass('fb-active');
+        }
     }
     export class feedbackOptions extends feedbackContent {
         constructor(public url: string,
-            public onStart: any, public onClose: any,
+            public onStart: feedbackCallback,
+            public onClose: feedbackCallback,
             contentTemplate: any = {
                 description: $.get("../src/templates/description.html", function (html) { return html; }),
                 highlighter: $.get("../src/templates/highlighter.html", function (html) { return html; }),
@@ -172,7 +241,12 @@ module phoenix {
                 submitSuccess: $.get("../src/templates/submitSuccess.html", function (html) { return html; }),
                 submitFailor: $.get("../src/templates/submitFailor.html", function (html) { return html; })
             }) {
-            super(contentTemplate.description, contentTemplate.highlighter, contentTemplate.overview, contentTemplate.submitSuccess, contentTemplate.submitFailor);
+            super(contentTemplate.description,
+                contentTemplate.highlighter,
+                contentTemplate.overview,
+                contentTemplate.submitSuccess,
+                contentTemplate.submitFailor,
+                onClose);
         }
         html2ConvasSupport: boolean = true; //!!window.HTMLCanvasElement; FIXME
     }
@@ -182,7 +256,7 @@ module phoenix {
             $("#" + $element).on("click",(event: JQueryEventObject) => this.openFeedback(event));
         }
         public openFeedback(event: JQueryEventObject): void {
-            //this.fbOptions.onStart(); FIXME
+            this.fbOptions.onStart.call(this);
             $('body').append(this.fbOptions.getFeedbackTemplate());
             var htmlAnchorElement: HTMLAnchorElement = <HTMLAnchorElement> event.target;
             var $element: JQuery = $(event.target);
