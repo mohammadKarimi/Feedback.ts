@@ -19,7 +19,7 @@ module phoenix {
             return new this;
         }
     }
-    class feedbackConvas {
+    class feedbackCanvas {
         constructor(public documentWidth: number, public documentHeight: number) {
         }
         public initialize() {
@@ -39,7 +39,12 @@ module phoenix {
         private $fb_convasSelector: any;
         public drawHighlight: boolean = true;
         public canDraw: boolean = false;
-        private rectangle: any;
+        private rectangle: {
+            startX: number;
+            startY: number;
+            width: number;
+            height: number
+        };
         private highlightCounter: number = 1;
 
 
@@ -116,7 +121,7 @@ module phoenix {
                 $('#fb-helpers').append('<div class="fb-helper" data-type="' + rectangleDrawedType + '" data-time="' + Date.now() + '" style="position:absolute;top:' + rectangleDrawedTop + 'px;left:' + rectangleDrawedLeft + 'px;width:' + rectangleDrawedWidth + 'px;height:' + rectangleDrawedHeight + 'px;z-index:30000;"><div class="highlightCounter">' + this.highlightCounter + '</div><div class="highlightText" contenteditable="true" style="width:' + (rectangleDrawedWidth - 6) + 'px"></div></div>');
                 this.highlightCounter++;
                 this.redraw(this.fbContext);
-                this.rectangle.weidth = 0;
+                this.rectangle.width = 0;
             }
         }
         private redraw(context: any): void {
@@ -126,7 +131,7 @@ module phoenix {
 
         }
     }
-    class feedbackContent extends feedbackConvas {
+    class feedbackContent extends feedbackCanvas {
         private convasTag: any = '<canvas dir="rtl" id="fb-canvas" style="z-index=999999" width="' + window.innerWidth + '" height="' + window.innerHeight + '"></canvas>';
         private moduleTag: any = '<div id="fb-module" position="absolute" left="0px" top="0px">';
         private helperTag: any = '<div id="fb-helpers"></div>';
