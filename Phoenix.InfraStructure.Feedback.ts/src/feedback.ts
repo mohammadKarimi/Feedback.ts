@@ -1,5 +1,5 @@
 ﻿/// <reference path="../jquery.d.ts" />
-///186
+///187
 module phoenix {
     class browserInfo {
         appCodeName: string = navigator.appCodeName;
@@ -19,13 +19,14 @@ module phoenix {
             return new this;
         }
     }
-    export class feedbackConvas {
+    class feedbackConvas {
         constructor(public documentWidth: number, public documentHeight: number) {
+        }
+        public initialize() {
             this.$fb_convasSelector = $("#fb-canvas");
-            // this.fbContext = this.$fb_convasSelector.getContext('2d');
-            // this.fbContext.fillStyle = 'rgba(102,102,102,0.5)';
-            // this.fbContext.fillRect(0, 0, this.documentWidth, this.documentHeight);
-
+            this.fbContext = this.$fb_convasSelector[0].getContext('2d');
+            this.fbContext.fillStyle = 'rgba(102,102,102,0.5)';
+            this.fbContext.fillRect(0, 0, this.documentWidth, this.documentHeight);
             this.$fb_convasSelector.on("mousedown", (event: JQueryEventObject) => this.startDrawRectangle(event));
             this.$fb_convasSelector.on("mousemove", (event: JQueryEventObject) => this.drawRectangle(event));
             this.$fb_convasSelector.on("mouseup", (event: JQueryEventObject) => this.finishDrawRectangle(event));
@@ -125,7 +126,7 @@ module phoenix {
 
         }
     }
-    export class feedbackContent extends feedbackConvas {
+    class feedbackContent extends feedbackConvas {
         private convasTag: any = '<canvas dir="rtl" id="fb-canvas" style="z-index=999999" width="' + window.innerWidth + '" height="' + window.innerHeight + '"></canvas>';
         private moduleTag: any = '<div id="fb-module" position="absolute" left="0px" top="0px">';
         private helperTag: any = '<div id="fb-helpers"></div>';
@@ -227,25 +228,32 @@ module phoenix {
             $('.fb-sethighlight').removeClass('fb-active');
         }
     }
-    export class feedbackOptions extends feedbackContent {
+    export class feedbackOptions {
+        private fb_Content: feedbackContent;
         constructor(public url: string,
             public onStart: () => void,
             public onClose: () => void,
-            contentTemplate: any = {
+            private contentTemplate: any = {
                 description: $.get("../src/templates/description.html", function (html) { return html; }),
                 highlighter: $.get("../src/templates/highlighter.html", function (html) { return html; }),
                 overview: $.get("../src/templates/overview.html", function (html) { return html; }),
                 submitSuccess: $.get("../src/templates/submitSuccess.html", function (html) { return html; }),
                 submitFailor: $.get("../src/templates/submitFailor.html", function (html) { return html; })
             }) {
-            super(contentTemplate.description,
-                contentTemplate.highlighter,
-                contentTemplate.overview,
-                contentTemplate.submitSuccess,
-                contentTemplate.submitFailor,
-                onClose);
+            this.fb_Content = new feedbackContent(this.contentTemplate.description,
+                this.contentTemplate.highlighter,
+                this.contentTemplate.overview,
+                this.contentTemplate.submitSuccess,
+                this.contentTemplate.submitFailor,
+                this.contentTemplate.onClose);
         }
-        html2ConvasSupport: boolean = true; //!!window.HTMLCanvasElement; FIXME
+        public getFeedbackTemplate(): any {
+            return this.fb_Content.getFeedbackTemplate();
+        }
+        public initializeConvas(): void {
+            this.fb_Content.initialize();
+        }
+        private html2ConvasSupport: boolean = true; //!!window.HTMLCanvasElement; FIXME
     }
     export class feedback {
         private _postData: browserInfo = browserInfo.getInformation();
@@ -255,6 +263,7 @@ module phoenix {
         public openFeedback(event: JQueryEventObject): void {
             this.fbOptions.onStart.call(this);
             $('body').append(this.fbOptions.getFeedbackTemplate());
+            this.fbOptions.initializeConvas();
             var htmlAnchorElement: HTMLAnchorElement = <HTMLAnchorElement> event.target;
             var $element: JQuery = $(event.target);
         }
