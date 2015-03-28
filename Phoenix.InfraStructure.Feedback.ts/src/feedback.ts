@@ -1,9 +1,6 @@
 ﻿/// <reference path="../jquery.d.ts" />
 ///186
 module phoenix {
-    interface feedbackCallback {
-        (): void;
-    }
     class browserInfo {
         appCodeName: string = navigator.appCodeName;
         appName: string = navigator.appName;
@@ -22,25 +19,25 @@ module phoenix {
             return new this;
         }
     }
-    class feedbackConvas {
+    export class feedbackConvas {
         constructor(public documentWidth: number, public documentHeight: number) {
             this.$fb_convasSelector = $("#fb-canvas");
             // this.fbContext = this.$fb_convasSelector.getContext('2d');
             // this.fbContext.fillStyle = 'rgba(102,102,102,0.5)';
             // this.fbContext.fillRect(0, 0, this.documentWidth, this.documentHeight);
-             
-            this.$fb_convasSelector.on("mousedown",(event: JQueryEventObject) => this.startDrawRectangle(event));
-            this.$fb_convasSelector.on("mousemove",(event: JQueryEventObject) => this.drawRectangle(event));
-            this.$fb_convasSelector.on("mouseup",(event: JQueryEventObject) => this.finishDrawRectangle(event));
-            this.$fb_convasSelector.on("mouseleave",(event: JQueryEventObject) => this.redraw(this.fbContext));
-            $('.fb-helper').on("mouseleave",(event: JQueryEventObject) => this.redraw(this.fbContext));
+
+            this.$fb_convasSelector.on("mousedown", (event: JQueryEventObject) => this.startDrawRectangle(event));
+            this.$fb_convasSelector.on("mousemove", (event: JQueryEventObject) => this.drawRectangle(event));
+            this.$fb_convasSelector.on("mouseup", (event: JQueryEventObject) => this.finishDrawRectangle(event));
+            this.$fb_convasSelector.on("mouseleave", (event: JQueryEventObject) => this.redraw(this.fbContext));
+            $('.fb-helper').on("mouseleave", (event: JQueryEventObject) => this.redraw(this.fbContext));
         }
         public fbContext: any;
         public isdraged: boolean = false;
 
         private $fb_convasSelector: any;
-        protected drawHighlight: boolean = true;
-        protected canDraw: boolean = false;
+        public drawHighlight: boolean = true;
+        public canDraw: boolean = false;
         private rectangle: any;
         private highlightCounter: number = 1;
 
@@ -128,7 +125,7 @@ module phoenix {
 
         }
     }
-    class feedbackContent extends feedbackConvas {
+    export class feedbackContent extends feedbackConvas {
         private convasTag: any = '<canvas dir="rtl" id="fb-canvas" style="z-index=999999" width="' + window.innerWidth + '" height="' + window.innerHeight + '"></canvas>';
         private moduleTag: any = '<div id="fb-module" position="absolute" left="0px" top="0px">';
         private helperTag: any = '<div id="fb-helpers"></div>';
@@ -142,13 +139,13 @@ module phoenix {
             public overview: any,
             public submitSuccess: any,
             public submitFailor: any,
-            public onClose: feedbackCallback) {
+            public onClose: () => void) {
             super(window.innerWidth, window.innerHeight);
-            $(document).on("click", "#fb-description-next",(event: JQueryEventObject) => this.nextToHighlighter());
-            $(document).on("click", "#fb-highlighter-back",(event: JQueryEventObject) => this.backToDescription());
-            $(document).on("click", "#fb-highlighter-next",(event: JQueryEventObject) => this.nextToOverview());
-            $(document).on('click', '.fb-sethighlight',(el: JQuery) => this.setHighlight(el));
-            $(document).on('click', '.fb-setblackout',(el: JQuery) => this.setBlackout(el));
+            $(document).on("click", "#fb-description-next", (event: JQueryEventObject) => this.nextToHighlighter());
+            $(document).on("click", "#fb-highlighter-back", (event: JQueryEventObject) => this.backToDescription());
+            $(document).on("click", "#fb-highlighter-next", (event: JQueryEventObject) => this.nextToOverview());
+            $(document).on('click', '.fb-sethighlight', (el: JQuery) => this.setHighlight(el));
+            $(document).on('click', '.fb-setblackout', (el: JQuery) => this.setBlackout(el));
         }
         private closeFeedbackModule() {
             this.canDraw = false;
@@ -232,8 +229,8 @@ module phoenix {
     }
     export class feedbackOptions extends feedbackContent {
         constructor(public url: string,
-            public onStart: feedbackCallback,
-            public onClose: feedbackCallback,
+            public onStart: () => void,
+            public onClose: () => void,
             contentTemplate: any = {
                 description: $.get("../src/templates/description.html", function (html) { return html; }),
                 highlighter: $.get("../src/templates/highlighter.html", function (html) { return html; }),
@@ -253,7 +250,7 @@ module phoenix {
     export class feedback {
         private _postData: browserInfo = browserInfo.getInformation();
         constructor(private $element: string, private fbOptions: feedbackOptions) {
-            $("#" + $element).on("click",(event: JQueryEventObject) => this.openFeedback(event));
+            $("#" + $element).on("click", (event: JQueryEventObject) => this.openFeedback(event));
         }
         public openFeedback(event: JQueryEventObject): void {
             this.fbOptions.onStart.call(this);
