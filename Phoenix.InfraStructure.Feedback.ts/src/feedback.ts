@@ -1,6 +1,12 @@
 ﻿/// <reference path="../jquery.d.ts" />
 ///187
 module phoenix {
+    interface rectangleObject {
+        startX: number;
+        startY: number;
+        width: number;
+        height: number
+    }
     class browserInfo {
         appCodeName: string = navigator.appCodeName;
         appName: string = navigator.appName;
@@ -39,14 +45,8 @@ module phoenix {
         private $fb_convasSelector: any;
         public drawHighlight: boolean = true;
         public canDraw: boolean = false;
-        private rectangle: {
-            startX: number;
-            startY: number;
-            width: number;
-            height: number
-        };
+        private rectangle: rectangleObject = { startX: 0, startY: 0, width: 0, height: 0 };
         private highlightCounter: number = 1;
-
 
         private startDrawRectangle(event): void {
             if (this.canDraw) {
@@ -62,33 +62,16 @@ module phoenix {
                 $('#fb-highlighter').css('cursor', 'default');
                 this.rectangle.width = (event.pageX - this.$fb_convasSelector.offset().left) - this.rectangle.startX;
                 this.rectangle.height = (event.pageY - this.$fb_convasSelector.offset().top) - this.rectangle.startY;
-
                 this.fbContext.clearRect(0, 0, this.$fb_convasSelector.width(), this.$fb_convasSelector.height());
                 this.fbContext.fillStyle = 'rgba(102,102,102,0.5)';
                 this.fbContext.fillRect(0, 0, this.$fb_convasSelector.width(), this.$fb_convasSelector.height());
-
-                // $('.fb-helper').each(function () {
-                //     if ($(this).attr('data-type') == 'highlight')
-                //         this.drawlines(this.fbContext, parseInt($(this).css('left'), 10), parseInt($(this).css('top'), 10), $(this).width(), $(this).height());
-                // });
                 if (this.drawHighlight) {
-                    this.drawlines(this.fbContext, this.rectangle.startX, this.rectangle.startY, this.rectangle.width, this.rectangle.height);
                     this.fbContext.clearRect(this.rectangle.startX, this.rectangle.startY, this.rectangle.width, this.rectangle.height);
-                }
-                // $('.fb-helper').each(function () {
-                //     if ($(this).attr('data-type') == 'highlight')
-                //         this.fbContex.clearRect(parseInt($(this).css('left'), 10), parseInt($(this).css('top'), 10), $(this).width(), $(this).height());
-                // });
-                // $('.fb-helper').each(function () {
-                //     if ($(this).attr('data-type') == 'blackout') {
-                //         this.fbContex.fillStyle = 'rgba(0,0,0,1)';
-                //         this.fbContex.fillRect(parseInt($(this).css('left'), 10), parseInt($(this).css('top'), 10), $(this).width(), $(this).height())
-                //     }
-                // });
-                if (!this.drawHighlight) {
+                } else {
                     this.fbContext.fillStyle = 'rgba(0,0,0,0.5)';
                     this.fbContext.fillRect(this.rectangle.startX, this.rectangle.startY, this.rectangle.width, this.rectangle.height);
                 }
+                this.redraw(this.fbContext);
             }
         }
         private finishDrawRectangle(event): void {
@@ -118,17 +101,28 @@ module phoenix {
                 }
                 if (this.drawHighlight == false)
                     rectangleDrawedType = 'blackout';
+
                 $('#fb-helpers').append('<div class="fb-helper" data-type="' + rectangleDrawedType + '" data-time="' + Date.now() + '" style="position:absolute;top:' + rectangleDrawedTop + 'px;left:' + rectangleDrawedLeft + 'px;width:' + rectangleDrawedWidth + 'px;height:' + rectangleDrawedHeight + 'px;z-index:30000;"><div class="highlightCounter">' + this.highlightCounter + '</div><div class="highlightText" contenteditable="true" style="width:' + (rectangleDrawedWidth - 6) + 'px"></div></div>');
                 this.highlightCounter++;
                 this.redraw(this.fbContext);
-                this.rectangle.width = 0;
             }
         }
-        private redraw(context: any): void {
-
-        }
-        private drawlines(context: any, startX: number, startY: number, rectangledrawdWidth: number, rectangledrawdHeight: number): void {
-
+        private redraw(fbContext: any): void {
+            $('.fb-helper').each(function () {
+                if ($(this).attr('data-type') == 'highlight') {
+                    var startX = parseInt($(this).css('left'), 10);
+                    var startY = parseInt($(this).css('top'), 10);
+                    var width = $(this).width();
+                    var height = $(this).height();
+                    fbContext.clearRect(startX, startY, width, height);
+                }
+            });
+            $('.fb-helper').each(function () {
+                if ($(this).attr('data-type') == 'blackout') {
+                    fbContext.fillStyle = 'rgba(0,0,0,1)';
+                    fbContext.fillRect(parseInt($(this).css('left'), 10), parseInt($(this).css('top'), 10), $(this).width(), $(this).height())
+                   }
+            });
         }
     }
     class feedbackContent extends feedbackCanvas {
@@ -159,7 +153,7 @@ module phoenix {
             //$(document).off('mouseup keyup');
             //$(document).off('mousedown', '.fb-setblackout');
             //$(document).off('mousedown', '.fb-sethighlight');
-            //$(document).off('mousedown click', '#fb-close');
+            //$(document).off('mousedown click', '#fb-rectangle-close');
             //$(document).off('mousedown', '#fb-canvas');
             //$(document).off('click', '#fb-highlighter-next');
             //$(document).off('click', '#fb-highlighter-back');
@@ -168,7 +162,7 @@ module phoenix {
             //$(document).off('mouseleave', 'body');
             //$(document).off('mouseenter', '.fb-helper');
             //$(document).off('selectstart dragstart', document);
-            //$('#fb-module').off('click', '.fb-close,.fb-close-btn');
+            //$('#fb-module').off('click', '.fb-rectangle-close,.fb-rectangle-close-btn');
             //$(document).off('click', '#fb-submit');
             //$('[data-highlighted="true"]').removeAttr('data-highlight-id').removeAttr('data-highlighted');
             //$('#fb-module').remove();
