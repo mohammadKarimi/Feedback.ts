@@ -29,7 +29,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="src\styles\feedback.rtl.css" />
-    <Content Include="src\styles\icons.png" />
     <Content Include="src\templates\description.html" />
     <Content Include="src\templates\highlighter.html" />
     <Content Include="src\templates\overview.html" />
