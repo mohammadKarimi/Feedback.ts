@@ -5,24 +5,26 @@
     <meta charset="utf-8" />
     <title>TypeScript HTML App</title>
     <link href="../src/styles/feedback.rtl.css" rel="stylesheet" />
-   
+
 </head>
 <body>
     <h1 id="fb-description-next">TypeScript HTML App</h1>
-    
+
     <button id="content">content</button>
 
     <script src="jquery-1.11.2.min.js"></script>
     <script src="../Scripts/jQuery/plugins/feedback/html2canvas.js"></script>
     <script src="../src/feedback.js"></script>
     <script>
-        var ins = new phoenix.feedback("content", new phoenix.feedbackOptions("", onStart, onClose));
         function onStart() {
-            console.log('onStart')
+            console.log('onStart');
         }
         function onClose() {
-            alert('onClose')
+            console.log('onClose');
         }
+
+        var options = new phoenix.feedbackOptions(onStart, onClose);
+        new phoenix.feedback("content", options);
     </script>
 </body>
 </html>

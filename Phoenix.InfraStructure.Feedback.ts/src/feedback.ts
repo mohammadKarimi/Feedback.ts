@@ -1,5 +1,4 @@
 ﻿/// <reference path="../jquery.d.ts" />
-///187
 module phoenix {
     interface rectangleObject {
         startX: number;
@@ -7,6 +6,16 @@ module phoenix {
         width: number;
         height: number
     }
+    export interface actionResult<T> {
+        isSuccessfull: boolean;
+        result: T;
+    }
+    export enum feedbackInitializer {
+        feedbackContent,
+        feedbackCanvas,
+        all
+    }
+
     class browserInfo {
         appCodeName: string = navigator.appCodeName;
         appName: string = navigator.appName;
@@ -28,7 +37,7 @@ module phoenix {
     class feedbackCanvas {
         constructor(public documentWidth: number, public documentHeight: number) {
         }
-        public initialize() {
+        public initializeCanvas() {
             this.$fb_convasSelector = $("#fb-canvas");
             this.fbContext = this.$fb_convasSelector[0].getContext('2d');
             this.fbContext.fillStyle = 'rgba(102,102,102,0.5)';
@@ -191,6 +200,7 @@ module phoenix {
         private moduleTag: any = '<div id="fb-module" position="absolute" left="0px" top="0px">';
         private helperTag: any = '<div id="fb-helpers"></div>';
         private noteTag: any = '<input id="fb-note" name="fb-note" type="hidden"></div>';
+        private endTag: any = '</div>';
 
         public documentHeight: number = window.innerHeight;
         public documentWidth: number = window.innerWidth;
@@ -200,49 +210,56 @@ module phoenix {
             public overview: any,
             public submitSuccess: any,
             public submitFailor: any,
+            public browserNotSupport: any,
             public onClose: () => void) {
             super(window.innerWidth, window.innerHeight);
+        }
+        public initializeContent(): void {
             $(document).on("click", "#fb-description-next", (event: JQueryEventObject) => this.nextToHighlighter());
             $(document).on("click", "#fb-highlighter-back", (event: JQueryEventObject) => this.backToDescription());
             $(document).on("click", "#fb-highlighter-next", (event: JQueryEventObject) => this.nextToOverview());
             $(document).on('click', '.fb-sethighlight', (el: JQuery) => this.setHighlight(el));
             $(document).on('click', '.fb-setblackout', (el: JQuery) => this.setBlackout(el));
+            $(document).on('click', '.fb-module-close', (el: JQuery) => this.closeFeedbackModule());
         }
         private closeFeedbackModule() {
             this.canDraw = false;
-            //$(document).off('mouseenter mouseleave', '.fb-helper');
-            //$(document).off('mouseup keyup');
-            //$(document).off('mousedown', '.fb-setblackout');
-            //$(document).off('mousedown', '.fb-sethighlight');
-            //$(document).off('mousedown click', '#fb-rectangle-close');
-            //$(document).off('mousedown', '#fb-canvas');
-            //$(document).off('click', '#fb-highlighter-next');
-            //$(document).off('click', '#fb-highlighter-back');
-            //$(document).off('click', '#fb-description-next');
-            //$(document).off('click', '#fb-overview-back');
-            //$(document).off('mouseleave', 'body');
-            //$(document).off('mouseenter', '.fb-helper');
-            //$(document).off('selectstart dragstart', document);
-            //$('#fb-module').off('click', '.fb-rectangle-close,.fb-rectangle-close-btn');
-            //$(document).off('click', '#fb-submit');
-            //$('[data-highlighted="true"]').removeAttr('data-highlight-id').removeAttr('data-highlighted');
-            //$('#fb-module').remove();
-            //$('.fb-btn').show();
-            //$(document).off('click', "#fb-browser-info");
-            //$(document).off('click', "#fb-page-info");
-            //$(document).off('click', "#fb-page-structure");
+            $(document).off('click', "#fb-description-next");
+            $(document).off('click', "#fb-highlighter-back");
+            $(document).off('click', "#fb-highlighter-next");
+            $(document).off('click', ".fb-sethighlight");
+            $(document).off('click', ".fb-setblackout");
+            $(document).off('click', ".fb-module-close");
+            $(document).off('mouseup keyup');
+            $(document).off('mousedown mousemove mouseup mouseleave', "#fb-canvas");
+            $('[data-highlighted="true"]').removeAttr('data-highlight-id').removeAttr('data-highlighted');
+            $(document).off('mouseenter mouseleave', ".fb-helper");
+            $(document).off("click", ".fb-rectangle-close");
+            $(document).off('mouseleave', 'body');
+            $('#fb-module').remove();
             this.onClose.call(this);
         }
-        public getFeedbackTemplate(): any {
-            return this.moduleTag +
-                this.description.responseText +
-                this.highlighter.responseText +
-                this.overview.responseText +
-                this.submitSuccess.responseText +
-                this.submitFailor.responseText +
-                this.convasTag +
-                this.helperTag +
-                this.noteTag;
+        public getFeedbackTemplate(html2canvasSupport: boolean): actionResult<HTMLAnchorElement> {
+            if (html2canvasSupport)
+                return {
+                    isSuccessfull: true,
+                    result:
+                    this.moduleTag +
+                    this.description.responseText +
+                    this.highlighter.responseText +
+                    this.overview.responseText +
+                    this.submitSuccess.responseText +
+                    this.submitFailor.responseText +
+                    this.convasTag +
+                    this.helperTag +
+                    this.noteTag + this.endTag
+                }
+            return {
+                isSuccessfull: false,
+                result: this.moduleTag +
+                this.browserNotSupport.responseText +
+                this.endTag
+            }
         }
         private nextToHighlighter(): void {
             if ($('#fb-note').val().length > 0) {
@@ -275,13 +292,11 @@ module phoenix {
             $('#fb-highlighter').show();
             $('#fb-overview-error').hide();
         }
-
         private setHighlight(el): void {
             this.drawHighlight = true;
             $('.fb-sethighlight').addClass('fb-active');
             $('.fb-setblackout').removeClass('fb-active');
         }
-
         private setBlackout(el): void {
             this.drawHighlight = false;
             $('.fb-setblackout').addClass('fb-active');
@@ -290,40 +305,64 @@ module phoenix {
     }
     export class feedbackOptions {
         private fb_Content: feedbackContent;
-        constructor(public url: string,
+        constructor(
             public onStart: () => void,
             public onClose: () => void,
+            public url: string= "localhost/send",
             private contentTemplate: any = {
                 description: $.get("../src/templates/description.html", function (html) { return html; }),
                 highlighter: $.get("../src/templates/highlighter.html", function (html) { return html; }),
                 overview: $.get("../src/templates/overview.html", function (html) { return html; }),
                 submitSuccess: $.get("../src/templates/submitSuccess.html", function (html) { return html; }),
-                submitFailor: $.get("../src/templates/submitFailor.html", function (html) { return html; })
+                submitFailor: $.get("../src/templates/submitFailor.html", function (html) { return html; }),
+                browserNotSupport: $.get("../src/templates/browserNotSupport.html", function (html) { return html; })
             }) {
             this.fb_Content = new feedbackContent(this.contentTemplate.description,
                 this.contentTemplate.highlighter,
                 this.contentTemplate.overview,
                 this.contentTemplate.submitSuccess,
                 this.contentTemplate.submitFailor,
-                this.contentTemplate.onClose);
+                this.contentTemplate.browserNotSupport,
+                this.onClose);
         }
-        public getFeedbackTemplate(): any {
-            return this.fb_Content.getFeedbackTemplate();
+        public getFeedbackTemplate(): actionResult<HTMLAnchorElement> {
+            return this.fb_Content.getFeedbackTemplate(this.html2ConvasSupport);
         }
-        public initializeConvas(): void {
-            this.fb_Content.initialize();
+        public initialize(fb_initializer: feedbackInitializer): void {
+            switch (fb_initializer) {
+                case feedbackInitializer.all: {
+                    this.fb_Content.initializeContent();
+                    this.fb_Content.initializeCanvas();
+                    break;
+                }
+                case feedbackInitializer.feedbackContent: {
+                    this.fb_Content.initializeContent();
+                    break;
+                }
+                case feedbackInitializer.feedbackCanvas: {
+                    this.fb_Content.initializeCanvas();
+                    break;
+                }
+                default: {
+                    this.fb_Content.initializeContent();
+                    break;
+                }
+            }
         }
-        private html2ConvasSupport: boolean = true; //!!window.HTMLCanvasElement; FIXME
+        private html2ConvasSupport: boolean = true;// !!window.HTMLCanvasElement; //FIXME
     }
     export class feedback {
-        private _postData: browserInfo = browserInfo.getInformation();
         constructor(private $element: string, private fbOptions: feedbackOptions) {
             $("#" + $element).on("click", (event: JQueryEventObject) => this.openFeedback(event));
         }
         public openFeedback(event: JQueryEventObject): void {
             this.fbOptions.onStart.call(this);
-            $('body').append(this.fbOptions.getFeedbackTemplate());
-            this.fbOptions.initializeConvas();
+            var factoryResult = this.fbOptions.getFeedbackTemplate();
+            $('body').append(factoryResult.result);
+            console.log(factoryResult);
+            if (factoryResult.isSuccessfull)
+                this.fbOptions.initialize(feedbackInitializer.all);
+            this.fbOptions.initialize(feedbackInitializer.feedbackContent);
             var htmlAnchorElement: HTMLAnchorElement = <HTMLAnchorElement> event.target;
             var $element: JQuery = $(event.target);
         }
