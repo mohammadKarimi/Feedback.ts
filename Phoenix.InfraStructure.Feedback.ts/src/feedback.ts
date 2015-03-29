@@ -246,7 +246,7 @@ module phoenix {
         }
         private nextToHighlighter(): void {
             if ($('#fb-note').val().length > 0) {
-                //highlightDraggable();
+                $('#fb-note').removeClass('fb-description-error');
                 this.canDraw = true;
                 $('#fb-canvas').css('cursor', 'crosshair');
                 $('#fb-helpers').show();
@@ -254,7 +254,7 @@ module phoenix {
                 $('#fb-highlighter').show();
             }
             else {
-                $('#fb-description-error').show();
+                $('#fb-note').addClass('fb-description-error');
             }
         }
         private backToDescription(): void {

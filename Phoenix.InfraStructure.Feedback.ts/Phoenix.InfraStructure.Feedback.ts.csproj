@@ -29,12 +29,21 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="src\styles\feedback.rtl.css" />
+    <Content Include="src\styles\fonts\glyphicons\glyphicons-halflings-regular.svg" />
     <Content Include="src\templates\description.html" />
     <Content Include="src\templates\highlighter.html" />
     <Content Include="src\templates\overview.html" />
     <Content Include="src\templates\submitFailor.html" />
     <Content Include="src\templates\submitSuccess.html" />
     <Content Include="web.config" />
+    <Content Include="src\styles\fonts\awesome\fontawesome-webfont.eot" />
+    <Content Include="src\styles\fonts\awesome\fontawesome-webfont.ttf" />
+    <Content Include="src\styles\fonts\awesome\fontawesome-webfont.woff" />
+    <Content Include="src\styles\fonts\byekan\byekan.eot" />
+    <Content Include="src\styles\fonts\byekan\byekan.ttf" />
+    <Content Include="src\styles\fonts\glyphicons\glyphicons-halflings-regular.eot" />
+    <Content Include="src\styles\fonts\glyphicons\glyphicons-halflings-regular.woff" />
+    <Content Include="src\styles\fonts\glyphicons\glyphiconshalflingsregular.ttf" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>

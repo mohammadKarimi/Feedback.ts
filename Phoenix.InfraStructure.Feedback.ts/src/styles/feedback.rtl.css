@@ -176,14 +176,8 @@
     opacity: 1;
 }
 
-#fb-description-error,
-#fb-overview-error {
-    display: none;
-    color: #f13e3e;
-    float: right;
-    margin-right: 30px;
-    font-size: 13px;
-    line-height: 29px;
+.fb-description-error {
+    border: 1px solid #f13e3e;
 }
 
 #fb-overview-error {
