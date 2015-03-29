@@ -7,21 +7,21 @@
 
 .highlightCounter {
     position: absolute;
-    top: -11px;
-    left: -11px;
+    top: -8px;
+    left: -9px;
     z-index: 9999999999 !important;
     padding: 1px;
     font-family: Arial,verdana,tahoma;
-    font-size: 12px;
+    font-size: 10px;
     font-weight: bold;
     color: #fff;
     vertical-align: top;
     text-align: center;
     text-shadow: 1px 1px 1px rgba(0,0,0,.3);
     background-color: #cf0404;
-    width: 17px;
-    height: 17px;
-    line-height: 20px;
+    width: 12px;
+    height: 12px;
+    line-height: 14px;
     border: 2px solid #fff;
     box-shadow: 0 2px 5px rgba(0,0,0,.4);
 }
@@ -31,7 +31,7 @@
     bottom: -26px;
     left: -1px;
     font-size: 12px;
-    border: 1px solid #727171;
+    border: 1px solid #A8A4A4;
     padding: 3px;
     border-top: none;
     font-family: 'B Yekan';
@@ -93,7 +93,7 @@
     padding-right: 55px;
     height: 32px;
     font-family: 'B Yekan';
-    background-image: url('images/fb.png');
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAADjElEQVR42u2aa0hTYRjHH3dxZznzXk4pkLSS+cEPZi0vHxIKkSDKgUFFBBVFfQqpD9EFC1K/FoV9iMou5iAKsw+RXRCJNELoRkmKK0VNs7KlhtT/zRELzqRt5+zp2PnDn2eXs/c8/9/ene28Z1H0nyuKuwFu6QC4G+CWDoC7AW7pALgb4JYOgLsBbukAuBvglioA2twdYtyd8DZ4EWxmyDYJv4HrVpbnnYs0gAsomxlCB9IZQNgVEQAIvxblJndiGZUAQkskAIjptpU7rYxOAsBe1QE8vPqoyWQylXGnlVEDAFSoDqClvrVJkiTtA6h0VRpQxJTZAWfRXx7JnUVFlJqWxh1WEQCXUTYGu5dZAQDhxRRuCmUvswVAHcp2tQAYTQZKsMcpms77aZy8n78pBsCNskEtANZYiXJXOxQF8O5lP3le9GkDgGSzkKN4iaIA+rsGqO/1gDYAMOnfBZCYFk8ZuQvDSiem/2DPB20CSF6QSFn5GWEB6On04GMwqE0AljnRFJsUExaAsY9eGh+b0A6Auck2irYqt0zwZfgrTXgntQMguyCT4lOV+y3Q1d5NQ70j2gGQuSyD4lJiFQPQ3dlLI+9HtQOAQToAHYAOQAegPoAVhYVkT0/nDiunSwCwSXUA2Tk5tNSh7KmuQjoAANWqA7BarVRSWkpmM8fFoIAahrMBYEh1AEJJKSmU73SSBBj/gDxwOcI/lntSFQBCRqPx18EwxmYjg8GgSJJoi+VVqt3egDH34a5NZhNxNlQDT/lud8G3ED7gWplqANSQJEk3qi5WrbtX31ppkaQamU2qEPZQMGMGAnAFpSKYgSKhKIPBXdNQ7Wo+e8ccn5DwFA/5H23fwjkzvdvBANiPcoI7sIwO1jbWHhc32twdxSj3/TKUIXxzsAMGApCE8hyez53YT2K9ywEAv5d9AOE8yhb4OsKvD2XQma4M5aI0wpncyaFu2IXwT/wfBIB5KB1wAQB4FAXggyC+zFfBi2n62qAJPgpLMpuLk/Fj8A8Fg3+n6SP5XYSXXe4BBDvC94e6g6CvDgPKYZQjMk/tQZOnFAwfEYUCwILyjP78aIipuRwAprgDqQ7AB2ENym3f60VoJ8K3c4eJGAAfhGsoLvg0wu/mDsIBQJzzPoDzAGA01HG4FdZfZMTvBYQf5g7BBmA2SAfA3QC3dADcDXBLB8DdALd0ANwNcEsHwN0At34CLeQ0UJYrxucAAAAASUVORK5CYII=') /*images/feedback.png*/;
     background-repeat: no-repeat;
     background-position: right;
     background-size: 46px;
@@ -150,16 +150,23 @@
         background: rgba(0,68,255,0.1);
     }
 
-#fb-close {
+    .fb-helper:hover > .fb-rectangle-close {
+        display: inline !important;
+    }
+
+.fb-rectangle-close {
     cursor: pointer;
     position: absolute;
     background-repeat: no-repeat;
     background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAAAXNSR0IArs4c6QAAAAlwSFlzAAALEwAACxMBAJqcGAAAAkFJREFUSMftlruKIkEUhmfa6aFZOxA133CYaJk19hl8AMFBBVEDUUQFdSONjCZcmE0FA0F8BUEEMdBAUBMTQU1MTAyUs1XFqaK7ZXr6sosbbMEX9N/nnL+rum53d//bP9Du/xC2TSXCA0EmPNpExlzJjjk3VAgqwUcIEIIWCWCOijX4B3zaUxr4BYt8JTwTvhFeCN+RkAGuv2DsM+YGsdaDWc/58CqY8EQAlzxhLcVs2HlvVfzaME122tA4jLVUs17f46Tw4VBFaPLlchEsl0s4n886jbNYLHTPaBzBWj6s/aHxI04O+p+iNPl0OjF6vR74/X6o1WpC4zQaDfau0+kIDY2jWCuAtU2NgzhJ4jT5eDzCdDoFr9cr/h01pzqFmnJdURQYj8dMRy2OtYJWjekMTdLkw+EAu90OyuWybuLU63WdKSWXy8F2u2U5qCWxlmXjEDfe7/cCo7nRVBurMQ45Mt5sNjoqlQp4PB5hKEkS5PP5qzjXxuv1Wke1Wr0yLhaLV3GujVerlaBUKpkOtTbWtfF8PofZbAaFQkFnlE6nmZlWy2azbAXQHNfGtFC/32dLhRskEgmmUzKZjNBlWYZut8t0p8ZiOU0mE0ar1QJVVSEWiwmNk0ql2DpvNptCc7qcxAYyGo0E7XYbhsOhTtO+0z472UB0W+ZgMHCE3S3z6pBwieVDwngsvhJ+EN4IPwnvhF8f8I4xb5jzaudYNF4EwvjVUfxfyU+IY2wEcy1dBG529bnpZe+m19ubXuj/evsNCeWOtAQ20rwAAAAASUVORK5CYII=') /*images/close-modal.png*/;
     width: 30px;
     height: 30px;
+    display: none;
+    right: -15px;
+    top: -15px;
 }
 
-.fb-close {
+.fb-module-close {
     cursor: pointer;
     position: absolute;
     top: 2px;
@@ -172,9 +179,9 @@
     background-position: center;
 }
 
-.fb-wizard-close:hover {
-    opacity: 1;
-}
+    .fb-module-close:hover {
+        opacity: 1;
+    }
 
 .fb-description-error {
     border: 1px solid #f13e3e;
@@ -202,7 +209,10 @@
     width: 780px !important;
     height: auto;
 }
-
+#fb-browser-notsupport{
+    display:inline !important;
+}
+#fb-browser-notsupport,
 #fb-submit-error,
 #fb-submit-success {
     top: 30%;
@@ -283,6 +293,7 @@
     resize: none;
 }
 
+#fb-browser-notsupport,
 #fb-description,
 #fb-highlighter,
 #fb-overview,
