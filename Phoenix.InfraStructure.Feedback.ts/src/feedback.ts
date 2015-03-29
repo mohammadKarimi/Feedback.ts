@@ -37,7 +37,7 @@ module phoenix {
             this.$fb_convasSelector.on("mousemove", (event: JQueryEventObject) => this.drawRectangle(event));
             this.$fb_convasSelector.on("mouseup", (event: JQueryEventObject) => this.finishDrawRectangle(event));
             this.$fb_convasSelector.on("mouseleave", (event: JQueryEventObject) => this.redraw());
-            $(document).on("mouseenter mouseleave", ".fb-helper", (event: JQueryEventObject) => this.showAndhideCloseButton(event));
+            $(document).on("mouseenter mouseleave", ".fb-helper", (event: JQueryEventObject) => this.setBlackoutTransparetn(event));
             $(document).on("click", ".fb-rectangle-close", (el: JQuery) => this.closeDrawedRectangle(el));
         }
         public fbContext: any;
@@ -114,6 +114,7 @@ module phoenix {
             this.highlightCounter--;
             var numberSelect = parseInt($(el.target).parent().find(".highlightCounter").html());
             $(el.target).parent().remove();
+            this.clearContext();
             this.redraw();
             $.each($(".highlightCounter"), function (index, item) {
                 var number = parseInt($(this).html());
@@ -121,6 +122,11 @@ module phoenix {
                     $(this).html((number - 1).toString());
                 }
             });
+        }
+        private clearContext(): void {
+            this.fbContext.clearRect(0, 0, this.documentWidth, this.documentHeight);
+            this.fbContext.fillStyle = 'rgba(102,102,102,0.5)';
+            this.fbContext.fillRect(0, 0, this.documentWidth, this.documentHeight);
         }
         private redraw(fbContext: any = this.fbContext): void {
             $('.fb-helper').each(function () {
@@ -132,57 +138,52 @@ module phoenix {
                    }
             });
         }
-        private showAndhideCloseButton(event: JQueryEventObject): void {
+        private setBlackoutTransparetn(event: JQueryEventObject, fbContext: any= this.fbContext): void {
             if (this.isdraged)
                 return;
+            if (event.type === 'mouseenter') {
+                if ($(event.target).attr('data-type') == 'blackout') {
+                    fbContext.clearRect(0, 0, this.documentWidth, this.documentHeight);
+                    fbContext.fillStyle = 'rgba(102,102,102,0.5)';
+                    fbContext.fillRect(0, 0, this.documentWidth, this.documentHeight);
 
-            //
-            //  if (event.type === 'mouseenter') {
-            //      $(this).css('z-index', '30001');
-            //      $(this).append('<div id="feedback-close"></div>');
-            //      $(this).find('#feedback-close').css({
-            //          'top': -1 * ($(this).find('#feedback-close').height() / 2) + 'px',
-            //          'left': $(this).width() - ($(this).find('#feedback-close').width() / 2) + 'px'
-            //      });
-            //
-            //      if ($(this).attr('data-type') == 'blackout') {
-            //          /* redraw white */
-            //          ctx.clearRect(0, 0, $('#feedback-canvas').width(), $('#feedback-canvas').height());
-            //          ctx.fillStyle = 'rgba(102,102,102,0.5)';
-            //          ctx.fillRect(0, 0, $('#feedback-canvas').width(), $('#feedback-canvas').height());
-            //          $('.feedback-helper').each(function () {
-            //              if ($(this).attr('data-type') == 'highlight')
-            //                  drawlines(ctx, parseInt($(this).css('left'), 10), parseInt($(this).css('top'), 10), $(this).width(), $(this).height());
-            //          });
-            //          $('.feedback-helper').each(function () {
-            //              if ($(this).attr('data-type') == 'highlight')
-            //                  ctx.clearRect(parseInt($(this).css('left'), 10), parseInt($(this).css('top'), 10), $(this).width(), $(this).height());
-            //          });
-            //
-            //          ctx.clearRect(parseInt($(this).css('left'), 10), parseInt($(this).css('top'), 10), $(this).width(), $(this).height())
-            //                  ctx.fillStyle = 'rgba(0,0,0,0.75)';
-            //          ctx.fillRect(parseInt($(this).css('left'), 10), parseInt($(this).css('top'), 10), $(this).width(), $(this).height());
-            //
-            //          ignore = $(this).attr('data-time');
-            //
-            //          /* redraw black */
-            //          $('.feedback-helper').each(function () {
-            //              if ($(this).attr('data-time') == ignore)
-            //                  return true;
-            //              if ($(this).attr('data-type') == 'blackout') {
-            //                  ctx.fillStyle = 'rgba(0,0,0,1)';
-            //                  ctx.fillRect(parseInt($(this).css('left'), 10), parseInt($(this).css('top'), 10), $(this).width(), $(this).height())
-            //                      }
-            //          });
-            //      }
-            //  }
-            //  else {
-            //      $(this).css('z-index', '30000');
-            //      $(this).find('#feedback-close').remove();
-            //      if ($(this).attr('data-type') == 'blackout') {
-            //          redraw(ctx);
-            //      }
-            //  }
+                    $('.fb-helper').each(function () {
+                        if ($(this).attr('data-type') == 'highlight')
+                            fbContext.clearRect(parseInt($(this).css('left'), 10),
+                                parseInt($(this).css('top'), 10),
+                                $(this).width(),
+                                $(this).height());
+                    });
+
+                    fbContext.clearRect(parseInt($(event.target).css('left'), 10),
+                        parseInt($(event.target).css('top'), 10),
+                        $(event.target).width(),
+                        $(event.target).height());
+
+                    fbContext.fillStyle = 'rgba(0,0,0,0.75)';
+
+                    fbContext.fillRect(parseInt($(event.target).css('left'), 10),
+                        parseInt($(event.target).css('top'), 10),
+                        $(event.target).width(),
+                        $(event.target).height());
+
+                    var ignore = $(event.target).attr('data-time');
+                    $('.fb-helper').each(function () {
+                        if ($(this).attr('data-time') == ignore)
+                            return true;
+                        if ($(this).attr('data-type') == 'blackout') {
+                            fbContext.fillStyle = 'rgba(0,0,0,1)';
+                            fbContext.fillRect(parseInt($(this).css('left'), 10), parseInt($(this).css('top'), 10), $(this).width(), $(this).height())
+                                  }
+                    });
+                }
+            }
+            else {
+                $(event.target).css('z-index', '30000');
+                if ($(event.target).attr('data-type') == 'blackout') {
+                    this.redraw();
+                }
+            }
         }
     }
     class feedbackContent extends feedbackCanvas {
