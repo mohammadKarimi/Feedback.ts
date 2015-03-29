@@ -1,5 +1,6 @@
 ﻿/// <reference path="../jquery.d.ts" />
 module phoenix {
+
     interface rectangleObject {
         startX: number;
         startY: number;
@@ -29,7 +30,7 @@ module phoenix {
         html = $('html').html().replace($('#fb-module').html(), '');
         static getInformation(): browserInfo {
             for (var plugin in navigator.plugins) {
-                //this.prototype.plugins.push(navigator.plugins[plugin].name);
+                this.prototype.plugins.push(navigator.plugins[plugin].name);
             }
             return new this;
         }
@@ -303,6 +304,7 @@ module phoenix {
             $('.fb-sethighlight').removeClass('fb-active');
         }
     }
+
     export class feedbackOptions {
         private fb_Content: feedbackContent;
         constructor(
