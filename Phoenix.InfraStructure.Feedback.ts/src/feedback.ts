@@ -36,8 +36,7 @@ module phoenix {
         }
     }
     class feedbackCanvas {
-        constructor(public documentWidth: number, public documentHeight: number) {
-        }
+        constructor(public documentWidth: number, public documentHeight: number) { }
         public initializeCanvas() {
             this.$fb_convasSelector = $("#fb-canvas");
             this.fbContext = this.$fb_convasSelector[0].getContext('2d');
@@ -53,10 +52,10 @@ module phoenix {
         }
         public fbContext: any;
         public isdraged: boolean = false;
-
-        private $fb_convasSelector: any;
         public drawHighlight: boolean = true;
         public canDraw: boolean = false;
+
+        private $fb_convasSelector: any;
         private rectangle: rectangleObject = { startX: 0, startY: 0, width: 0, height: 0 };
         private highlightCounter: number = 1;
 
@@ -222,6 +221,7 @@ module phoenix {
             public onClose: () => void) {
             super(window.innerWidth, window.innerHeight);
         }
+
         public initializeContent(): void {
             $(document).on("click", "#fb-description-next", (event: JQueryEventObject) => this.nextToHighlighter());
             $(document).on("click", "#fb-highlighter-back", (event: JQueryEventObject) => this.backToDescription());
@@ -230,6 +230,8 @@ module phoenix {
             $(document).on('click', '.fb-setblackout', (el: JQuery) => this.setBlackout(el));
             $(document).on('click', '.fb-module-close', (el: JQuery) => this.closeFeedbackModule());
             $(document).on('keyup', (event: JQueryEventObject) => this.keyUpCapture(event));
+            $(document).on('mousedown', '#fb-highlighter', (event: JQueryEventObject) => this.draggableHighlighterbox(event));
+            $(document).on('mouseup', '#fb-highlighter', (event: JQueryEventObject) => this.removeDraggableHighlighterbox(event));
         }
         private closeFeedbackModule() {
             this.canDraw = false;
@@ -294,7 +296,40 @@ module phoenix {
             $('.fb-setblackout').addClass('fb-active');
             $('.fb-sethighlight').removeClass('fb-active');
         }
-
+        private draggableHighlighterbox(event: JQueryEventObject): void {
+            var $fb_highlighter = $(event.target).addClass('fb-draggable'),
+                drag_h = $fb_highlighter.outerHeight(),
+                drag_w = $fb_highlighter.outerWidth(),
+                pos_y = $fb_highlighter.offset().top + drag_h - event.pageY,
+                pos_x = $fb_highlighter.offset().left + drag_w - event.pageX;
+            $fb_highlighter.css('z-index', 40000).parent().on('mousemove', function (e) {
+                var _top = e.pageY + pos_y - drag_h;
+                var _left = e.pageX + pos_x - drag_w;
+                var _bottom = drag_h - e.pageY;
+                var _right = drag_w - e.pageX;
+                if (_left < 0) _left = 0;
+                if (_top < 0) _top = 0;
+                if (_right > $(window).width())
+                    _left = $(window).width() - drag_w;
+                if (_left > $(window).width() - drag_w)
+                    _left = $(window).width() - drag_w;
+                if (_bottom > $(document).height())
+                    _top = $(document).height() - drag_h;
+                if (_top > $(document).height() - drag_h)
+                    _top = $(document).height() - drag_h;
+                $('.fb-draggable').offset({
+                    top: _top,
+                    left: _left
+                }).on("mouseup", function () {
+                        $(this).removeClass('fb-draggable');
+                    });
+            });
+            event.preventDefault();
+        }
+        private removeDraggableHighlighterbox(event) {
+            $(event.target).removeClass('fb-draggable');
+            $(event.target).parents().off('mousemove mousedown');
+        }
         public getFeedbackTemplate(html2canvasSupport: boolean): actionResult<HTMLAnchorElement> {
             if (html2canvasSupport)
                 return {
@@ -375,7 +410,6 @@ module phoenix {
             this.fbOptions.onStart.call(this);
             var factoryResult = this.fbOptions.getFeedbackTemplate();
             $('body').append(factoryResult.result);
-            console.log(factoryResult);
             if (factoryResult.isSuccessfull)
                 this.fbOptions.initialize(feedbackInitializer.all);
             this.fbOptions.initialize(feedbackInitializer.feedbackContent);
