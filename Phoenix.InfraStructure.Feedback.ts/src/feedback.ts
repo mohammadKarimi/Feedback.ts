@@ -314,9 +314,7 @@ module phoenix {
                     $('#fb-overview').show();
                     $('#fb-overview-screenshot>img').remove();
                     $('#fb-overview-screenshot').append('<img class="fb-screenshot" src="' + img + '" />');
-                },
-                proxy: '',
-                letterRendering: ''
+                }
             });
             return img;
         }
