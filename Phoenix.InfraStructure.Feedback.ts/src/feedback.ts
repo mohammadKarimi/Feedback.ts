@@ -49,7 +49,7 @@ module phoenix {
             this.$fb_convasSelector.on("mouseleave", (event: JQueryEventObject) => this.redraw());
             $(document).on("mouseenter mouseleave", ".fb-helper", (event: JQueryEventObject) => this.setBlackoutTransparetn(event));
             $(document).on("click", ".fb-rectangle-close", (el: JQuery) => this.removeDrawedRectangle(el));
-            //$(document).on('keyup', (event: JQueryEventObject) => this.keyUpCapture(event));
+
         }
         public fbContext: any;
         public isdraged: boolean = false;
@@ -229,6 +229,7 @@ module phoenix {
             $(document).on('click', '.fb-sethighlight', (el: JQuery) => this.setHighlight(el));
             $(document).on('click', '.fb-setblackout', (el: JQuery) => this.setBlackout(el));
             $(document).on('click', '.fb-module-close', (el: JQuery) => this.closeFeedbackModule());
+            $(document).on('keyup', (event: JQueryEventObject) => this.keyUpCapture(event));
         }
         private closeFeedbackModule() {
             this.canDraw = false;
@@ -247,26 +248,9 @@ module phoenix {
             $('#fb-module').remove();
             this.onClose.call(this);
         }
-        public getFeedbackTemplate(html2canvasSupport: boolean): actionResult<HTMLAnchorElement> {
-            if (html2canvasSupport)
-                return {
-                    isSuccessfull: true,
-                    result:
-                    this.moduleTag +
-                    this.description.responseText +
-                    this.highlighter.responseText +
-                    this.overview.responseText +
-                    this.submitSuccess.responseText +
-                    this.submitFailor.responseText +
-                    this.convasTag +
-                    this.helperTag +
-                    this.noteTag + this.endTag
-                }
-            return {
-                isSuccessfull: false,
-                result: this.moduleTag +
-                this.browserNotSupport.responseText +
-                this.endTag
+        private keyUpCapture(event): void {
+            if (event.keyCode == 27) {
+                this.closeFeedbackModule();
             }
         }
         private nextToHighlighter(): void {
@@ -309,6 +293,29 @@ module phoenix {
             this.drawHighlight = false;
             $('.fb-setblackout').addClass('fb-active');
             $('.fb-sethighlight').removeClass('fb-active');
+        }
+
+        public getFeedbackTemplate(html2canvasSupport: boolean): actionResult<HTMLAnchorElement> {
+            if (html2canvasSupport)
+                return {
+                    isSuccessfull: true,
+                    result:
+                    this.moduleTag +
+                    this.description.responseText +
+                    this.highlighter.responseText +
+                    this.overview.responseText +
+                    this.submitSuccess.responseText +
+                    this.submitFailor.responseText +
+                    this.convasTag +
+                    this.helperTag +
+                    this.noteTag + this.endTag
+                }
+            return {
+                isSuccessfull: false,
+                result: this.moduleTag +
+                this.browserNotSupport.responseText +
+                this.endTag
+            }
         }
     }
 
