@@ -11,9 +11,9 @@ module phoenix {
         isSuccessfull: boolean;
         result: T;
     }
-    export enum feedbackInitializer {
-        feedbackContent,
-        feedbackCanvas,
+    export enum fbInitializer {
+        fbContent,
+        fbCanvas,
         all
     }
 
@@ -28,9 +28,10 @@ module phoenix {
         plugins: Array<string>;
         currentUrl: string = document.URL;
         html = $('html').html().replace($('#fb-module').html(), '');
+        screenSnapshot: any;
         static getInformation(): browserInfo {
             for (var plugin in navigator.plugins) {
-                this.prototype.plugins.push(navigator.plugins[plugin].name);
+               // this.prototype.plugins.push(navigator.plugins[plugin].name);
             }
             return new this;
         }
@@ -208,7 +209,7 @@ module phoenix {
         private helperTag: any = '<div id="fb-helpers"></div>';
         private noteTag: any = '<input id="fb-note" name="fb-note" type="hidden"></div>';
         private endTag: any = '</div>';
-
+        private browserInfo: browserInfo = browserInfo.getInformation();
         public documentHeight: number = window.innerHeight;
         public documentWidth: number = window.innerWidth;
 
@@ -228,12 +229,13 @@ module phoenix {
             $(document).on("click", "#fb-highlighter-next", (event: JQueryEventObject) => this.nextToOverview());
             $(document).on('click', '.fb-sethighlight', (el: JQuery) => this.setHighlight(el));
             $(document).on('click', '.fb-setblackout', (el: JQuery) => this.setBlackout(el));
-            $(document).on('click', '.fb-module-close', (el: JQuery) => this.closeFeedbackModule());
+            $(document).on('click', '.fb-module-close', (el: JQuery) => this.closefbModule());
             $(document).on('keyup', (event: JQueryEventObject) => this.keyUpCapture(event));
             $(document).on('mousedown', '#fb-highlighter', (event: JQueryEventObject) => this.draggableHighlighterbox(event));
             $(document).on('mouseup', '#fb-highlighter', (event: JQueryEventObject) => this.removeDraggableHighlighterbox(event));
+            $(document).on('mouseup', '#fb-highlighter', (event: JQueryEventObject) => this.removeDraggableHighlighterbox(event));
         }
-        private closeFeedbackModule() {
+        private closefbModule() {
             this.canDraw = false;
             $(document).off('click', "#fb-description-next");
             $(document).off('click', "#fb-highlighter-back");
@@ -253,7 +255,7 @@ module phoenix {
         }
         private keyUpCapture(event): void {
             if (event.keyCode == 27) {
-                this.closeFeedbackModule();
+                this.closefbModule();
             }
         }
         private nextToHighlighter(): void {
@@ -277,7 +279,56 @@ module phoenix {
             $('#fb-description').show();
         }
         private nextToOverview(): void {
+            this.canDraw = false;
+            $('#fb-canvas').css('cursor', 'default');
+            var sy = $(document).scrollTop(),
+                wh = $(window).height();
+            $('#fb-highlighter').hide();
+            $('#fb-overview').show();
+            $("#fb-browser-info").append(
+                '<div class="hide" id="fb-browser-infodetail"><div class="text-right">نام کد برنامه : ' + browserInfo.prototype.appCodeName + '</div>' +
+                '<div class="text-right">نام برنامه : ' + browserInfo.prototype.appName + '</div>' +
+                '<div class="text-right">ورژن مرورگر : ' + browserInfo.prototype.appVersion + '</div>' +
+                '<div class="text-right">کوکی : ' + browserInfo.prototype.cookieEnabled + '</div>' +
+                '<div class="text-right">وضعیت شبکه : ' + browserInfo.prototype.onLine + '</div>' +
+                '<div class="text-right">پلتفرم : ' + browserInfo.prototype.platform + '</div>' +
+                '<div class="text-right">سیستم عامل کاربر : ' + browserInfo.prototype.userAgent + '</div>'
+                + '</div>');
 
+          //html2canvas($('body'), {
+          //    onrendered: function (canvas) {
+          //        var _canvas = $('<canvas id="fb-canvas-tmp" dir="rtl" width="' + this.documentWidth + '" height="' + this.documentHeight + '"/>').hide().appendTo('body');
+          //        var _ctx = _canvas.get(0).getContext('2d');
+          //        _ctx.fillStyle = "#000";
+          //        _ctx.font = "bold 16px Arial";
+          //
+          //        _ctx.drawImage(canvas, 0, sy, this.documentWidth, this.documentHeight, 0, 0, this.documentWidth, this.documentHeight);
+          //        var img = _canvas.get(0).toDataURL();
+          //        $(document).scrollTop(sy);
+          //        browserInfo.prototype.screenSnapshot = img;
+          //        $('#fb-canvas-tmp').remove();
+          //
+          //        $('#fb-overview-description-text>textarea').remove();
+          //        $('#fb-overview-screenshot>img').remove();
+          //
+          //        $('<textarea id="fb-overview-note">' + $('#fb-note').val() + '</textarea>').insertAfter('#fb-overview-description-text h3:eq(0)');
+          //        $('#fb-overview-screenshot').append('<img class="fb-screenshot" src="' + img + '" />');
+          //
+          //
+          //
+          //        $("#fb-page-info").append(
+          //            '<div class="hide" id="fb-page-infodetail">' +
+          //            '<div class="text-right">آدرس جاری : ' + postData.url + '</div>' +
+          //            '</div>');
+          //        $("#fb-page-structure").append(
+          //            '<div class="hide" id="fb-structure-infodetail">' +
+          //            '<div class="text-left" id="html"></div>' +
+          //            '</div>');
+          //        $("#html").text(postData.html);
+          //    },
+          //    proxy: settings.proxy,
+          //    letterRendering: settings.letterRendering
+          //});
         }
         private backToHighlighter() {
             this.canDraw = true;
@@ -331,7 +382,7 @@ module phoenix {
             $(event.target).removeClass('fb-draggable');
             $(event.target).parents().off('mousemove mousedown');
         }
-        public getFeedbackTemplate(html2canvasSupport: boolean): actionResult<HTMLAnchorElement> {
+        public getfbTemplate(html2canvasSupport: boolean): actionResult<HTMLAnchorElement> {
             if (html2canvasSupport)
                 return {
                     isSuccessfull: true,
@@ -377,21 +428,21 @@ module phoenix {
                 this.contentTemplate.browserNotSupport,
                 this.onClose);
         }
-        public getFeedbackTemplate(): actionResult<HTMLAnchorElement> {
-            return this.fb_Content.getFeedbackTemplate(this.html2ConvasSupport);
+        public getfbTemplate(): actionResult<HTMLAnchorElement> {
+            return this.fb_Content.getfbTemplate(this.html2ConvasSupport);
         }
-        public initialize(fb_initializer: feedbackInitializer): void {
+        public initialize(fb_initializer: fbInitializer): void {
             switch (fb_initializer) {
-                case feedbackInitializer.all: {
+                case fbInitializer.all: {
                     this.fb_Content.initializeContent();
                     this.fb_Content.initializeCanvas();
                     break;
                 }
-                case feedbackInitializer.feedbackContent: {
+                case fbInitializer.fbContent: {
                     this.fb_Content.initializeContent();
                     break;
                 }
-                case feedbackInitializer.feedbackCanvas: {
+                case fbInitializer.fbCanvas: {
                     this.fb_Content.initializeCanvas();
                     break;
                 }
@@ -404,16 +455,16 @@ module phoenix {
         private html2ConvasSupport: boolean = true;// !!window.HTMLCanvasElement; //FIXME
     }
     export class feedback {
-        constructor(private $element: string, private fbOptions: feedbackOptions) {
-            $("#" + $element).on("click", (event: JQueryEventObject) => this.openFeedback(event));
+        constructor(private $element: string, private feedbackOptions: feedbackOptions) {
+            $("#" + $element).on("click", (event: JQueryEventObject) => this.openfb(event));
         }
-        public openFeedback(event: JQueryEventObject): void {
-            this.fbOptions.onStart.call(this);
-            var factoryResult = this.fbOptions.getFeedbackTemplate();
+        public openfb(event: JQueryEventObject): void {
+            this.feedbackOptions.onStart.call(this);
+            var factoryResult = this.feedbackOptions.getfbTemplate();
             $('body').append(factoryResult.result);
             if (factoryResult.isSuccessfull)
-                this.fbOptions.initialize(feedbackInitializer.all);
-            this.fbOptions.initialize(feedbackInitializer.feedbackContent);
+                this.feedbackOptions.initialize(fbInitializer.all);
+            this.feedbackOptions.initialize(fbInitializer.fbContent);
             var htmlAnchorElement: HTMLAnchorElement = <HTMLAnchorElement> event.target;
             var $element: JQuery = $(event.target);
         }
