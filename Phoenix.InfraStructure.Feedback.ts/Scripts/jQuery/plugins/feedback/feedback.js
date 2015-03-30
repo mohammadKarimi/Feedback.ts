@@ -1,4 +1,5 @@
-﻿/// <reference path="../jquery-1.10.2.min.js" />
+﻿/// <reference path="html2canvas.js" />
+/// <reference path="../jquery-1.10.2.min.js" />
 (function ($) {
 
     $.fn.feedback = function (options) {

@@ -460,10 +460,13 @@
 #fb-page-info,
 #fb-page-structure,
 #fb-additional-none {
-    display: none;
+    /*display: none;*/
     width: 320px;
 }
 
 .hide {
-    display: none;
+    /*display: none;*/
 }
+
+
+ 

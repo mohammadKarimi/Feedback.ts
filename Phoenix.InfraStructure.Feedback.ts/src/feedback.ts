@@ -31,7 +31,7 @@ module phoenix {
         screenSnapshot: any;
         static getInformation(): browserInfo {
             for (var plugin in navigator.plugins) {
-               // this.prototype.plugins.push(navigator.plugins[plugin].name);
+                // this.prototype.plugins.push(navigator.plugins[plugin].name);
             }
             return new this;
         }
@@ -282,54 +282,43 @@ module phoenix {
         private nextToOverview(): void {
             this.canDraw = false;
             $('#fb-canvas').css('cursor', 'default');
+            $('#fb-highlighter').hide();
+            $('textarea#fb-overview-note').val($('#fb-note').val());
+            $("#fb-browser-infodetail").append(
+                '<div class="text-right">نام کد برنامه : ' + this.browserInfo.appCodeName + ' </div > ' +
+                '<div class="text-right">نام برنامه : ' + this.browserInfo.appName + '</div>' +
+                '<div class="text-right">ورژن مرورگر : ' + this.browserInfo.appVersion + '</div>' +
+                '<div class="text-right">کوکی : ' + this.browserInfo.cookieEnabled + '</div>' +
+                '<div class="text-right">وضعیت شبکه : ' + this.browserInfo.onLine + '</div>' +
+                '<div class="text-right">پلتفرم : ' + this.browserInfo.platform + '</div>' +
+                '<div class="text-right">سیستم عامل کاربر : ' + this.browserInfo.userAgent + '</div>'
+                + '</div>');
+            $("#fb-page-infodetail").append(this.browserInfo.currentUrl);
+            $("#fb-html-infodetail").text(this.browserInfo.html);
+            this.browserInfo.screenSnapshot = this.html2Canvas(this.documentWidth);
+        }
+        private html2Canvas(documentWidth: number): any {
             var sy = $(document).scrollTop(),
                 wh = $(window).height();
-            $('#fb-highlighter').hide();
-            $('#fb-overview').show();
-            $("#fb-browser-info").append(
-                '<div class="hide" id="fb-browser-infodetail"><div class="text-right">نام کد برنامه : ' + browserInfo.prototype.appCodeName + '</div>' +
-                '<div class="text-right">نام برنامه : ' + browserInfo.prototype.appName + '</div>' +
-                '<div class="text-right">ورژن مرورگر : ' + browserInfo.prototype.appVersion + '</div>' +
-                '<div class="text-right">کوکی : ' + browserInfo.prototype.cookieEnabled + '</div>' +
-                '<div class="text-right">وضعیت شبکه : ' + browserInfo.prototype.onLine + '</div>' +
-                '<div class="text-right">پلتفرم : ' + browserInfo.prototype.platform + '</div>' +
-                '<div class="text-right">سیستم عامل کاربر : ' + browserInfo.prototype.userAgent + '</div>'
-                + '</div>');
-
-          //html2canvas($('body'), {
-          //    onrendered: function (canvas) {
-          //        var _canvas = $('<canvas id="fb-canvas-tmp" dir="rtl" width="' + this.documentWidth + '" height="' + this.documentHeight + '"/>').hide().appendTo('body');
-          //        var _ctx = _canvas.get(0).getContext('2d');
-          //        _ctx.fillStyle = "#000";
-          //        _ctx.font = "bold 16px Arial";
-          //
-          //        _ctx.drawImage(canvas, 0, sy, this.documentWidth, this.documentHeight, 0, 0, this.documentWidth, this.documentHeight);
-          //        var img = _canvas.get(0).toDataURL();
-          //        $(document).scrollTop(sy);
-          //        browserInfo.prototype.screenSnapshot = img;
-          //        $('#fb-canvas-tmp').remove();
-          //
-          //        $('#fb-overview-description-text>textarea').remove();
-          //        $('#fb-overview-screenshot>img').remove();
-          //
-          //        $('<textarea id="fb-overview-note">' + $('#fb-note').val() + '</textarea>').insertAfter('#fb-overview-description-text h3:eq(0)');
-          //        $('#fb-overview-screenshot').append('<img class="fb-screenshot" src="' + img + '" />');
-          //
-          //
-          //
-          //        $("#fb-page-info").append(
-          //            '<div class="hide" id="fb-page-infodetail">' +
-          //            '<div class="text-right">آدرس جاری : ' + postData.url + '</div>' +
-          //            '</div>');
-          //        $("#fb-page-structure").append(
-          //            '<div class="hide" id="fb-structure-infodetail">' +
-          //            '<div class="text-left" id="html"></div>' +
-          //            '</div>');
-          //        $("#html").text(postData.html);
-          //    },
-          //    proxy: settings.proxy,
-          //    letterRendering: settings.letterRendering
-          //});
+            var img;
+            html2canvas($('body'), {
+                onrendered: function (canvas) {
+                    var _canvas = $('<canvas id="fb-canvas-tmp" dir="rtl" width="' + documentWidth + '" height="' + wh + '"/>').hide().appendTo('body');
+                    var _ctx = _canvas.get(0).getContext('2d');
+                    _ctx.fillStyle = "#000";
+                    _ctx.font = "bold 16px Arial";
+                    _ctx.drawImage(canvas, 0, sy, documentWidth, wh, 0, 0, documentWidth, wh);
+                    img = _canvas.get(0).toDataURL();
+                    $(document).scrollTop(sy);
+                    $('#fb-canvas-tmp').remove();
+                    $('#fb-overview').show();
+                    $('#fb-overview-screenshot>img').remove();
+                    $('#fb-overview-screenshot').append('<img class="fb-screenshot" src="' + img + '" />');
+                },
+                proxy: '',
+                letterRendering: ''
+            });
+            return img;
         }
         private backToHighlighter() {
             this.canDraw = true;

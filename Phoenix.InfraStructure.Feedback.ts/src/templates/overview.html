@@ -1,26 +1,31 @@
 ﻿<div id="fb-overview">
+    <div class="fb-module-close"></div>
     <div class="fb-logo">سیستم بازخورد</div>
     <div id="fb-overview-description">
         <div id="fb-overview-description-text">
             <h3>توضیحات</h3>
+            <textarea id="fb-overview-note"></textarea>
+
             <h3 class="fb-additional">اطلاعات بیشتر</h3>
-            <div id="fb-additional-none">
-                <span>...</span>
-            </div><div id="fb-browser-info">
+            <div id="fb-browser-info">
                 <div class="according">اطلاعات مرورگر</div>
-            </div><div id="fb-page-info">
+                <div class="hide" id="fb-browser-infodetail"></div>
+            </div>
+            <div id="fb-page-info">
                 <div class="according">اطلاعات صفحه</div>
-            </div><div id="fb-page-structure">
+                <div class="hide" id="fb-page-infodetail"></div>
+
+            </div>
+            <div id="fb-page-structure">
                 <div class="according">ساختار صفحه</div>
+                <div class="hide text-left" id="fb-html-infodetail">
+                </div>
             </div>
         </div>
     </div>
     <div id="fb-overview-screenshot">
         <h3>تصویر صفحه</h3>
     </div>
-
-    <div id="fb-overview-error">لطفا توضیحات را وارد نمایید</div>
-    <div class="fb-module-close"></div>
     <div class="fb-buttons">
         <button id="fb-submit" class="fb-submit-btn fb-btn-blue">ارسال بازخورد</button>
         <button id="fb-overview-back" class="fb-back-btn fb-btn-gray">مرحله قبلی</button>
