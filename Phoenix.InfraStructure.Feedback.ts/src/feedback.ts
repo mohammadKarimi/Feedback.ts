@@ -31,7 +31,7 @@ module phoenix {
         screenSnapshot: any;
         static getInformation(): browserInfo {
             for (var plugin in navigator.plugins) {
-                // this.prototype.plugins.push(navigator.plugins[plugin].name);
+                //this.prototype.platform.push(navigator.plugins[plugin].name);
             }
             return new this;
         }
@@ -283,7 +283,7 @@ module phoenix {
             $('#fb-canvas').css('cursor', 'default');
             $('#fb-highlighter').hide();
             $('textarea#fb-overview-note').val($('#fb-note').val());
-            $("#fb-browser-infodetail").append(
+            $("#fb-browser-infodetail").html('').append(
                 '<div class="text-right">نام کد برنامه : ' + this.browserInfo.appCodeName + ' </div > ' +
                 '<div class="text-right">نام برنامه : ' + this.browserInfo.appName + '</div>' +
                 '<div class="text-right">ورژن مرورگر : ' + this.browserInfo.appVersion + '</div>' +
@@ -292,7 +292,7 @@ module phoenix {
                 '<div class="text-right">پلتفرم : ' + this.browserInfo.platform + '</div>' +
                 '<div class="text-right">سیستم عامل کاربر : ' + this.browserInfo.userAgent + '</div>'
                 + '</div>');
-            $("#fb-page-infodetail").append(this.browserInfo.currentUrl);
+            $("#fb-page-infodetail").html('').append(this.browserInfo.currentUrl);
             $("#fb-html-infodetail").text(this.browserInfo.html);
             this.browserInfo.screenSnapshot = this.html2Canvas(this.documentWidth);
         }

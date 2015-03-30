@@ -209,9 +209,11 @@
     width: 780px !important;
     height: auto;
 }
-#fb-browser-notsupport{
-    display:inline !important;
+
+#fb-browser-notsupport {
+    display: inline !important;
 }
+
 #fb-browser-notsupport,
 #fb-submit-error,
 #fb-submit-success {
@@ -401,7 +403,7 @@
 #fb-overview-description {
     float: right;
     width: 50%;
-    overflow: auto;
+    overflow-y: scroll;
     height: 360px;
     padding-left: 10px;
 }
@@ -465,8 +467,5 @@
 }
 
 .hide {
-    /*display: none;*/
+    display: none;
 }
-
-
- 
