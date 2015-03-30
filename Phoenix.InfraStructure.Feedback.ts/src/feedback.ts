@@ -449,9 +449,11 @@ module phoenix {
             this.feedbackOptions.onStart.call(this);
             var factoryResult = this.feedbackOptions.getfbTemplate();
             $('body').append(factoryResult.result);
-            if (factoryResult.isSuccessfull)
+            if (factoryResult.isSuccessfull) {
                 this.feedbackOptions.initialize(fbInitializer.all);
-            this.feedbackOptions.initialize(fbInitializer.fbContent);
+            } else {
+                this.feedbackOptions.initialize(fbInitializer.fbContent);
+            }
             var htmlAnchorElement: HTMLAnchorElement = <HTMLAnchorElement> event.target;
             var $element: JQuery = $(event.target);
         }
