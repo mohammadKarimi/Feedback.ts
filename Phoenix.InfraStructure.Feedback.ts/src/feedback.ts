@@ -234,6 +234,7 @@ module phoenix {
             $(document).on('mousedown', '#fb-highlighter', (event: JQueryEventObject) => this.draggableHighlighterbox(event));
             $(document).on('mouseup', '#fb-highlighter', (event: JQueryEventObject) => this.removeDraggableHighlighterbox(event));
             $(document).on('mouseup', '#fb-highlighter', (event: JQueryEventObject) => this.removeDraggableHighlighterbox(event));
+            $(document).on('mouseup', '#fb-overview-back', (event: JQueryEventObject) => this.backToHighlighter());
         }
         private closefbModule() {
             this.canDraw = false;
