@@ -110,12 +110,18 @@ module phoenix {
                 if (rectangleDrawedLeft + rectangleDrawedWidth > $(document).width()) {
                     rectangleDrawedWidth = this.documentWidth - rectangleDrawedLeft;
                 }
-                if (this.drawHighlight == false)
+                var highlightText = '<div class="highlightText" contenteditable="true" style="width:' + (rectangleDrawedWidth - 6) + 'px"></div>';
+                if (this.drawHighlight == false) {
                     rectangleDrawedType = 'blackout';
-
-                $('#fb-helpers').append('<div class="fb-helper" data-type="' + rectangleDrawedType + '" data-time="' + Date.now() + '" style="position:absolute;top:' + rectangleDrawedTop + 'px;left:' + rectangleDrawedLeft + 'px;width:' + rectangleDrawedWidth + 'px;height:' + rectangleDrawedHeight + 'px;z-index:30000;">'
+                    highlightText = '';
+                }
+                $('#fb-helpers').append('<div class="fb-helper" data-type="' + rectangleDrawedType + '" data-time="' + Date.now()
+                    + '" style="position:absolute;top:' + rectangleDrawedTop + 'px;left:' + rectangleDrawedLeft
+                    + 'px;width:' + rectangleDrawedWidth + 'px;height:' + rectangleDrawedHeight + 'px;z-index:30000;">'
                     + '<div class="fb-rectangle-close"></div>' +
-                    '<div class="highlightCounter">' + this.highlightCounter + '</div><div class="highlightText" contenteditable="true" style="width:' + (rectangleDrawedWidth - 6) + 'px"></div></div>');
+                    '<div class="highlightCounter">' + this.highlightCounter + '</div>' +
+                    highlightText
+                    + '</div>');
                 this.highlightCounter++;
                 this.redraw();
             }
