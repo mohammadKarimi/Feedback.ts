@@ -247,6 +247,7 @@ module phoenix {
             $(document).off('mouseenter mouseleave', ".fb-helper");
             $(document).off("click", ".fb-rectangle-close");
             $(document).off('mouseleave', 'body');
+            $(document).off('mousedown mouseup', '#fb-highlighter');
             $('#fb-module').remove();
             this.onClose.call(this);
         }
