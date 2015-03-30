@@ -48,7 +48,8 @@ module phoenix {
             this.$fb_convasSelector.on("mouseup", (event: JQueryEventObject) => this.finishDrawRectangle(event));
             this.$fb_convasSelector.on("mouseleave", (event: JQueryEventObject) => this.redraw());
             $(document).on("mouseenter mouseleave", ".fb-helper", (event: JQueryEventObject) => this.setBlackoutTransparetn(event));
-            $(document).on("click", ".fb-rectangle-close", (el: JQuery) => this.closeDrawedRectangle(el));
+            $(document).on("click", ".fb-rectangle-close", (el: JQuery) => this.removeDrawedRectangle(el));
+            //$(document).on('keyup', (event: JQueryEventObject) => this.keyUpCapture(event));
         }
         public fbContext: any;
         public isdraged: boolean = false;
@@ -126,7 +127,7 @@ module phoenix {
                 this.redraw();
             }
         }
-        private closeDrawedRectangle(el): void {
+        private removeDrawedRectangle(el): void {
             this.highlightCounter--;
             var numberSelect = parseInt($(el.target).parent().find(".highlightCounter").html());
             $(el.target).parent().remove();
