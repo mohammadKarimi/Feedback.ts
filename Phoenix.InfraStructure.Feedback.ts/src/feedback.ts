@@ -213,7 +213,9 @@ module phoenix {
         public documentHeight: number = window.innerHeight;
         public documentWidth: number = window.innerWidth;
 
-        constructor(public description: any,
+        constructor(
+            private url: string,
+            public description: any,
             public highlighter: any,
             public overview: any,
             public submitSuccess: any,
@@ -230,6 +232,7 @@ module phoenix {
             $(document).on('click', '.fb-sethighlight', () => this.setHighlight());
             $(document).on('click', '.fb-setblackout', () => this.setBlackout());
             $(document).on('click', '.fb-module-close', () => this.closefbModule());
+            $(document).on('click', '.fb-close-btn', () => this.closefbModule());
             $(document).on('keyup', (event: JQueryEventObject) => this.keyUpCapture(event));
             $(document).on('mousedown', '#fb-highlighter', (event: JQueryEventObject) => this.draggableHighlighterbox(event));
             $(document).on('mouseup', '#fb-highlighter', (event: JQueryEventObject) => this.removeDraggableHighlighterbox(event));
@@ -241,6 +244,7 @@ module phoenix {
         }
         private closefbModule() {
             this.canDraw = false;
+            $(document).off('click', '.fb-close-btn');
             $(document).off('click', "#fb-browser-info");
             $(document).off('click', "#fb-page-structure");
             $(document).off('mouseup', '#fb-overview-back');
@@ -407,28 +411,24 @@ module phoenix {
         }
         private submitFeedback(): void {
             this.canDraw = false;
-            if ($('#fb-overview-note').val().length > 0) {
+            if ($('#fb-overview-note').val().length <= 0) {
                 $('#fb-overview-note').addClass('fb-description-error');
                 return;
             }
-            $('#fb-submit-success,#fb-submit-error').remove();
-
-            var data = { feedback: { browserInfo: JSON.stringify(this.browserInfo), note: $('#fb-overview-note').val() } };
-            console.log(data);
-            //$.ajax({
-            //    url: settings.ajaxURL,
-            //    dataType: 'json',
-            //    type: 'POST',
-            //    data: data,
-            //    success: function () {
-            //  $('#fb-overview').hide();
-            //          $('#feedback-module').append(settings.fbContent.submitSuccess);
-            //      },
-            //    error: function () {
-            //$('#fb-overview').hide();
-            //        $('#feedback-module').append(settings.fbContent.submitError);
-            //    }
-            //});
+            $.ajax({
+                url: this.url,
+                dataType: 'json',
+                type: 'POST',
+                data: { feedback: { browserInfo: JSON.stringify(this.browserInfo), note: $('#fb-overview-note').val() } },
+                success: function () {
+                    $('#fb-overview').hide();
+                    $('#fb-submit-success').fadeIn();
+                },
+                error: function () {
+                    $('#fb-overview').hide();
+                    $('#fb-submit-error').fadeIn();
+                }
+            });
         }
 
         public getfbTemplate(html2canvasSupport: boolean): actionResult<HTMLAnchorElement> {
@@ -469,7 +469,9 @@ module phoenix {
                 submitError: $.get("../src/templates/submitError.html", function (html) { return html; }),
                 browserNotSupport: $.get("../src/templates/browserNotSupport.html", function (html) { return html; })
             }) {
-            this.fb_Content = new feedbackContent(this.contentTemplate.description,
+            this.fb_Content = new feedbackContent(
+                this.url,
+                this.contentTemplate.description,
                 this.contentTemplate.highlighter,
                 this.contentTemplate.overview,
                 this.contentTemplate.submitSuccess,
