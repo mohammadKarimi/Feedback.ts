@@ -312,7 +312,7 @@ module phoenix {
                     $('#fb-canvas-tmp').remove();
                     $('#fb-overview').show();
                     $('#fb-overview-screenshot>img').remove();
-                    $('#fb-overview-screenshot').append('<img class="fb-screenshot" src="' + img + '" />');
+                    $('#fb-overview-screenshot').html('').append('<a href="'+img+'" target="_blank" ><img class="fb-screenshot" src="' + img + '" /></a>');
                 }
             });
             return img;

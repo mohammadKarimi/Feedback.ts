@@ -431,14 +431,15 @@
     float: left;
     width: 46%;
 }
-
 .fb-screenshot {
     width: 325px;
     padding: 1px;
     border: 1px solid #adadad;
     height: 120px;
 }
-
+.fb-screenshot:hover{
+     border: 1px solid #357ae8;
+}
 
 .according {
     background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAACNwAAAjcB9wZEwgAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAABoSURBVDiNxZO7DYAwDETfsQNdVqBhiTBypqKmO1pEAgpyJCy5Or+T/JNtIjGF6F4DSVlSkZQq0fZrAhtwADswV/oHeG3WROBHg164aQAsvbDt+BrHtzBkiEPWOOSQLiYZKEC6a/r9G0922YbzPVrpzwAAAABJRU5ErkJgggaa37d2ae1e9bdb35f16cee055ee584ea');
