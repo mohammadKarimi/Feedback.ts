@@ -19,7 +19,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Content Include="example\index.html" />
-    <Content Include="example\jquery-1.11.2.min.js" />
     <Content Include="src\html2canvas.js" />
   </ItemGroup>
   <ItemGroup>
