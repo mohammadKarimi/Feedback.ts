@@ -462,12 +462,12 @@ module phoenix {
             public onClose: () => void,
             public url: string= "localhost/send",
             private contentTemplate: any = {
-                description: $.get("../src/templates/description.html", function (html) { return html; }),
-                highlighter: $.get("../src/templates/highlighter.html", function (html) { return html; }),
-                overview: $.get("../src/templates/overview.html", function (html) { return html; }),
-                submitSuccess: $.get("../src/templates/submitSuccess.html", function (html) { return html; }),
-                submitError: $.get("../src/templates/submitError.html", function (html) { return html; }),
-                browserNotSupport: $.get("../src/templates/browserNotSupport.html", function (html) { return html; })
+                description: $.get("../src/templates/fa-Ir/description.html", function (html) { return html; }),
+                highlighter: $.get("../src/templates/fa-Ir/highlighter.html", function (html) { return html; }),
+                overview: $.get("../src/templates/fa-Ir/overview.html", function (html) { return html; }),
+                submitSuccess: $.get("../src/templates/fa-Ir/submitSuccess.html", function (html) { return html; }),
+                submitError: $.get("../src/templates/fa-Ir/submitError.html", function (html) { return html; }),
+                browserNotSupport: $.get("../src/templates/fa-Ir/browserNotSupport.html", function (html) { return html; })
             }) {
             this.fb_Content = new feedbackContent(
                 this.url,

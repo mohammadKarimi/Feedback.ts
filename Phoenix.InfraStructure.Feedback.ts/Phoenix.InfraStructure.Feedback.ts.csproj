@@ -27,12 +27,13 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="src\styles\feedback.rtl.css" />
-    <Content Include="src\templates\browserNotSupport.html" />
-    <Content Include="src\templates\description.html" />
-    <Content Include="src\templates\highlighter.html" />
-    <Content Include="src\templates\overview.html" />
-    <Content Include="src\templates\submitError.html" />
-    <Content Include="src\templates\submitSuccess.html" />
+    <Content Include="src\templates\fa-Ir\browserInfo.html" />
+    <Content Include="src\templates\fa-Ir\browserNotSupport.html" />
+    <Content Include="src\templates\fa-Ir\description.html" />
+    <Content Include="src\templates\fa-Ir\highlighter.html" />
+    <Content Include="src\templates\fa-Ir\overview.html" />
+    <Content Include="src\templates\fa-Ir\submitError.html" />
+    <Content Include="src\templates\fa-Ir\submitSuccess.html" />
     <Content Include="web.config" />
     <Content Include="src\styles\fonts\byekan\byekan.eot" />
     <Content Include="src\styles\fonts\byekan\byekan.ttf" />
