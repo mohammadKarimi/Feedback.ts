@@ -20,8 +20,7 @@
   <ItemGroup>
     <Content Include="example\index.html" />
     <Content Include="example\jquery-1.11.2.min.js" />
-    <Content Include="Scripts\jQuery\plugins\feedback\feedback.js" />
-    <Content Include="Scripts\jQuery\plugins\feedback\html2canvas.js" />
+    <Content Include="src\html2canvas.js" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="jquery.d.ts" />

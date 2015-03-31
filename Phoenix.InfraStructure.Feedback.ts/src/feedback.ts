@@ -111,17 +111,17 @@ module phoenix {
                 if (rectangleDrawedLeft + rectangleDrawedWidth > $(document).width()) {
                     rectangleDrawedWidth = this.documentWidth - rectangleDrawedLeft;
                 }
-                var highlightText = '<div class="highlightText" contenteditable="true" style="width:' + (rectangleDrawedWidth - 6) + 'px"></div>';
+                var bubble = '<div class="bubble" contenteditable="true" style="width:' + (rectangleDrawedWidth - 6) + 'px"></div>';
                 if (this.drawHighlight == false) {
                     rectangleDrawedType = 'blackout';
-                    highlightText = '';
+                    bubble = '';
                 }
                 $('#fb-helpers').append('<div class="fb-helper" data-type="' + rectangleDrawedType + '" data-time="' + Date.now()
                     + '" style="position:absolute;top:' + rectangleDrawedTop + 'px;left:' + rectangleDrawedLeft
                     + 'px;width:' + rectangleDrawedWidth + 'px;height:' + rectangleDrawedHeight + 'px;z-index:30000;">'
                     + '<div class="fb-rectangle-close"></div>' +
                     '<div class="highlightCounter">' + this.highlightCounter + '</div>' +
-                    highlightText
+                    bubble
                     + '</div>');
                 this.highlightCounter++;
                 this.redraw();
@@ -329,7 +329,7 @@ module phoenix {
             $('.fb-setblackout').addClass('fb-active');
             $('.fb-sethighlight').removeClass('fb-active');
         }
-        private backToHighlighter(): void{
+        private backToHighlighter(): void {
             this.canDraw = true;
             $('#fb-canvas').css('cursor', 'crosshair');
             $('#fb-overview').hide();
@@ -359,6 +359,7 @@ module phoenix {
             var sy = $(document).scrollTop(),
                 wh = $(window).height();
             var img;
+            $("#loading-screenshot").animate({ value: 100 }, { duration: 3000, easing: 'easeOutCirc' });
             html2canvas($('body'), {
                 onrendered: function (canvas) {
                     var _canvas = $('<canvas id="fb-canvas-tmp" dir="rtl" width="' + documentWidth + '" height="' + wh + '"/>').hide().appendTo('body');
@@ -370,7 +371,9 @@ module phoenix {
                     $(document).scrollTop(sy);
                     $('#fb-canvas-tmp').remove();
                     $('#fb-overview').show();
-                    $('#fb-overview-screenshot').html('').append('<a href="' + img + '" target="_blank" ><img class="fb-screenshot" src="' + img + '" /></a>');
+                    setTimeout(function () {
+                        $('#fb-screenshot').html('').append('<a href="' + img + '" target="_blank" ><img class="fb-screenshot fb-screenshot-border" src="' + img + '" /></a>');
+                    }, 3000);
                 }
             });
             return img;
@@ -491,4 +494,30 @@ module phoenix {
     }
 }
 
+//$(document).on('click', '#feedback-submit', function () {
+//    canDraw = false;
 
+//    if ($('#feedback-note').val().length > 0) {
+//        $('#feedback-submit-success,#feedback-submit-error').remove();
+//        $('#feedback-overview').hide();
+
+//        postData.img = img;
+//        postData.note = $('#feedback-note').val();
+//        var data = { feedback: JSON.stringify(postData) };
+//        $.ajax({
+//            url: settings.ajaxURL,
+//            dataType: 'json',
+//            type: 'POST',
+//            data: data,
+//            success: function () {
+//                $('#feedback-module').append(settings.fbContent.submitSuccess);
+//            },
+//            error: function () {
+//                $('#feedback-module').append(settings.fbContent.submitError);
+//            }
+//        });
+//    }
+//    else {
+//        $('#feedback-overview-error').show();
+//    }
+//});

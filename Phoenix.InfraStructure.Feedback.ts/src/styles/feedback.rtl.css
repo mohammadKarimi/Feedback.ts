@@ -26,21 +26,6 @@
     box-shadow: 0 2px 5px rgba(0,0,0,.4);
 }
 
-.highlightText {
-    position: absolute;
-    bottom: -26px;
-    left: -1px;
-    font-size: 12px;
-    border: 1px solid #A8A4A4;
-    padding: 3px;
-    border-top: none;
-    font-family: 'B Yekan';
-    background-color: #E9E9E9;
-}
-
-    .highlightText:focus {
-        border: 1px solid #727171;
-    }
 
 #fb-module {
     font-family: 'B Yekan';
@@ -86,7 +71,7 @@
     }
 
 .fb-logo {
-    margin-bottom: 10px;
+    margin-bottom: 20px;
     font-size: 16px;
     font-weight: normal;
     line-height: 32px;
@@ -206,8 +191,7 @@
     left: 50%;
     margin-left: -420px;
     position: fixed;
-    width: 780px !important;
-    height: auto;
+    width: 680px !important;
 }
 
 #fb-browser-notsupport {
@@ -303,7 +287,7 @@
 #fb-submit-error {
     font-family: 'B Yekan';
     z-index: 40000;
-    padding: 30px 42px;
+    padding: 25px;
     border: 1px solid rgba(0,0,0,.333);
     outline: 0;
     -webkit-box-shadow: 0 4px 16px rgba(0,0,0,.2);
@@ -403,13 +387,13 @@
 #fb-overview-description {
     float: right;
     width: 50%;
-    overflow-y: scroll;
-    height: 360px;
+    overflow: auto;
     padding-left: 10px;
+    height: 340px;
 }
 
 #fb-overview-note {
-    width: 314px;
+    width: 285px;
     padding: 4px;
     height: 115px;
     outline: none;
@@ -425,20 +409,26 @@
 .text-left {
     text-align: left;
     font-size: 12px;
+    padding-left: 10px;
 }
 
 #fb-overview-screenshot {
     float: left;
     width: 46%;
 }
+
 .fb-screenshot {
-    width: 325px;
-    padding: 1px;
-    border: 1px solid #adadad;
+    width: 285px;
     height: 120px;
 }
-.fb-screenshot:hover{
-     border: 1px solid #357ae8;
+
+.fb-screenshot-border {
+    padding: 1px;
+    border: 1px solid #adadad;
+}
+
+.fb-screenshot-border:hover {
+    border: 1px solid #357ae8;
 }
 
 .according {
@@ -446,27 +436,53 @@
     background-repeat: no-repeat;
     background-position: right;
     font-size: 14px;
-    margin: 8px 0;
     color: #373434;
     margin-right: 10px;
-    width: 95%;
-    padding: 10px;
+    width: 88%;
+    padding: 6px;
     padding-right: 15px;
 }
 
     .according:hover {
-        background-color: #eee;
+        font-weight: bold;
         cursor: pointer;
+        border-bottom: 1px solid #6788DF;
     }
 
 #fb-browser-info,
 #fb-page-info,
 #fb-page-structure,
 #fb-additional-none {
-    /*display: none;*/
-    width: 320px;
+    width: 300px;
+}
+
+#fb-page-infodetail, #fb-browser-infodetail, #fb-html-infodetail {
+    padding-top: 10px;
 }
 
 .hide {
     display: none;
+}
+
+/*#region bubble */
+.bubble {
+    position: absolute;
+    bottom: -29px;
+    font-size: 12px;
+    padding: 3px;
+    font-family: 'B Yekan';
+    background-color: #fff;
+    min-height: 22px;
+    border: none;
+    border-top: #1d96e6 solid 1px;
+}
+/*#endregion */
+
+.fb-title {
+    background-position: right;
+    background-repeat: no-repeat;
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAA3NCSVQICAjb4U/gAAAACXBIWXMAAACDAAAAgwFi77taAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAACdQTFRF////AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIpVOngAAAAx0Uk5TAA0kKjA/SHKYqMDgGvyz+wAAACxJREFUCFtjZIACxo7/GwPAjDP/FiXgYLj8u2QAZuzGrWY3hmI8BsItZYACAOEFJX+F9OPQAAAAAElFTkSuQmCCb6197603a35f6d61d4efcf58438dc536');
+    background-size: 16px;
+    opacity: 0.7;
+    padding-right: 21px;
 }
