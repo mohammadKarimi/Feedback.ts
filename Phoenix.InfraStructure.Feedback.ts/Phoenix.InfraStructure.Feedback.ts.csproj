@@ -33,7 +33,7 @@
     <Content Include="src\templates\description.html" />
     <Content Include="src\templates\highlighter.html" />
     <Content Include="src\templates\overview.html" />
-    <Content Include="src\templates\submitFailor.html" />
+    <Content Include="src\templates\submitError.html" />
     <Content Include="src\templates\submitSuccess.html" />
     <Content Include="web.config" />
     <Content Include="src\styles\fonts\awesome\fontawesome-webfont.eot" />

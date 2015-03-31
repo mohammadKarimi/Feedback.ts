@@ -217,7 +217,7 @@ module phoenix {
             public highlighter: any,
             public overview: any,
             public submitSuccess: any,
-            public submitFailor: any,
+            public submitError: any,
             public browserNotSupport: any,
             public onClose: () => void) {
             super(window.innerWidth, window.innerHeight);
@@ -237,6 +237,7 @@ module phoenix {
             $(document).on('click', "#fb-page-info", () => this.according_fb_page_info());
             $(document).on('click', "#fb-browser-info", () => this.according_fb_browser_info());
             $(document).on('click', "#fb-page-structure", () => this.according_fb_page_structure());
+            $(document).on('click', "#fb-submit", (el: JQuery) => this.submitFeedback());
         }
         private closefbModule() {
             this.canDraw = false;
@@ -266,17 +267,16 @@ module phoenix {
             }
         }
         private nextToHighlighter(): void {
-            if ($('#fb-note').val().length > 0) {
-                $('#fb-note').removeClass('fb-description-error');
-                this.canDraw = true;
-                $('#fb-canvas').css('cursor', 'crosshair');
-                $('#fb-helpers').show();
-                $('#fb-description').hide();
-                $('#fb-highlighter').show();
-            }
-            else {
+            if ($('#fb-note').val().length == 0) {
                 $('#fb-note').addClass('fb-description-error');
+                return;
             }
+            $('#fb-note').removeClass('fb-description-error');
+            this.canDraw = true;
+            $('#fb-canvas').css('cursor', 'crosshair');
+            $('#fb-helpers').show();
+            $('#fb-description').hide();
+            $('#fb-highlighter').show();
         }
         private backToDescription(): void {
             this.canDraw = false;
@@ -361,7 +361,7 @@ module phoenix {
             var sy = $(document).scrollTop(),
                 wh = $(window).height();
             var img;
-          
+
             html2canvas($('body'), {
                 onrendered: function (canvas) {
                     var _canvas = $('<canvas id="fb-canvas-tmp" dir="rtl" width="' + documentWidth + '" height="' + wh + '"/>').hide().appendTo('body');
@@ -374,7 +374,7 @@ module phoenix {
                     $('#fb-canvas-tmp').remove();
                     $('#fb-overview').show();
                     setTimeout(function () {
-                        $('#fb-screenshot').html('').append('<a href="' + img + '" target="_blank" ><img class="fb-screenshot fb-screenshot-border" src="' + img + '" /></a>');
+                        $('#fb-screenshot').html('').append('<a href="' + img + '" target="_blank" ><img class="fb-screenshot fb-screenshot-border fb-screenshot-fadeIn" src="' + img + '" /></a>');
                         $("#loading-screenshot").hide();
                     }, 1200);
                 }
@@ -405,6 +405,31 @@ module phoenix {
                 el.addClass('hide');
             }
         }
+        private submitFeedback(): void {
+            this.canDraw = false;
+            if ($('#fb-overview-note').val().length > 0) {
+                $('#fb-overview-note').addClass('fb-description-error');
+                return;
+            }
+            $('#fb-submit-success,#fb-submit-error').remove();
+
+            var data = { feedback: { browserInfo: JSON.stringify(this.browserInfo), note: $('#fb-overview-note').val() } };
+            console.log(data);
+            //$.ajax({
+            //    url: settings.ajaxURL,
+            //    dataType: 'json',
+            //    type: 'POST',
+            //    data: data,
+            //    success: function () {
+            //  $('#fb-overview').hide();
+            //          $('#feedback-module').append(settings.fbContent.submitSuccess);
+            //      },
+            //    error: function () {
+            //$('#fb-overview').hide();
+            //        $('#feedback-module').append(settings.fbContent.submitError);
+            //    }
+            //});
+        }
 
         public getfbTemplate(html2canvasSupport: boolean): actionResult<HTMLAnchorElement> {
             if (html2canvasSupport)
@@ -416,7 +441,7 @@ module phoenix {
                     this.highlighter.responseText +
                     this.overview.responseText +
                     this.submitSuccess.responseText +
-                    this.submitFailor.responseText +
+                    this.submitError.responseText +
                     this.convasTag +
                     this.helperTag +
                     this.noteTag + this.endTag
@@ -441,14 +466,14 @@ module phoenix {
                 highlighter: $.get("../src/templates/highlighter.html", function (html) { return html; }),
                 overview: $.get("../src/templates/overview.html", function (html) { return html; }),
                 submitSuccess: $.get("../src/templates/submitSuccess.html", function (html) { return html; }),
-                submitFailor: $.get("../src/templates/submitFailor.html", function (html) { return html; }),
+                submitError: $.get("../src/templates/submitError.html", function (html) { return html; }),
                 browserNotSupport: $.get("../src/templates/browserNotSupport.html", function (html) { return html; })
             }) {
             this.fb_Content = new feedbackContent(this.contentTemplate.description,
                 this.contentTemplate.highlighter,
                 this.contentTemplate.overview,
                 this.contentTemplate.submitSuccess,
-                this.contentTemplate.submitFailor,
+                this.contentTemplate.submitError,
                 this.contentTemplate.browserNotSupport,
                 this.onClose);
         }
@@ -496,31 +521,3 @@ module phoenix {
         }
     }
 }
-
-//$(document).on('click', '#feedback-submit', function () {
-//    canDraw = false;
-
-//    if ($('#feedback-note').val().length > 0) {
-//        $('#feedback-submit-success,#feedback-submit-error').remove();
-//        $('#feedback-overview').hide();
-
-//        postData.img = img;
-//        postData.note = $('#feedback-note').val();
-//        var data = { feedback: JSON.stringify(postData) };
-//        $.ajax({
-//            url: settings.ajaxURL,
-//            dataType: 'json',
-//            type: 'POST',
-//            data: data,
-//            success: function () {
-//                $('#feedback-module').append(settings.fbContent.submitSuccess);
-//            },
-//            error: function () {
-//                $('#feedback-module').append(settings.fbContent.submitError);
-//            }
-//        });
-//    }
-//    else {
-//        $('#feedback-overview-error').show();
-//    }
-//});
