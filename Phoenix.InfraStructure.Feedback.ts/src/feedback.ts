@@ -339,6 +339,8 @@ module phoenix {
         }
         private nextToOverview(): void {
             this.canDraw = false;
+            $('#fb-screenshot').html('')
+            $("#loading-screenshot").fadeIn();
             $('#fb-canvas').css('cursor', 'default');
             $('#fb-highlighter').hide();
             $('textarea#fb-overview-note').val($('#fb-note').val());
@@ -359,7 +361,7 @@ module phoenix {
             var sy = $(document).scrollTop(),
                 wh = $(window).height();
             var img;
-            $("#loading-screenshot").animate({ value: 100 }, { duration: 3000, easing: 'easeOutCirc' });
+          
             html2canvas($('body'), {
                 onrendered: function (canvas) {
                     var _canvas = $('<canvas id="fb-canvas-tmp" dir="rtl" width="' + documentWidth + '" height="' + wh + '"/>').hide().appendTo('body');
@@ -373,7 +375,8 @@ module phoenix {
                     $('#fb-overview').show();
                     setTimeout(function () {
                         $('#fb-screenshot').html('').append('<a href="' + img + '" target="_blank" ><img class="fb-screenshot fb-screenshot-border" src="' + img + '" /></a>');
-                    }, 3000);
+                        $("#loading-screenshot").hide();
+                    }, 1200);
                 }
             });
             return img;

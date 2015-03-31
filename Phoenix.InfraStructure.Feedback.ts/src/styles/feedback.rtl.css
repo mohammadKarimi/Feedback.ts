@@ -427,9 +427,9 @@
     border: 1px solid #adadad;
 }
 
-.fb-screenshot-border:hover {
-    border: 1px solid #357ae8;
-}
+    .fb-screenshot-border:hover {
+        border: 1px solid #357ae8;
+    }
 
 .according {
     background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAACNwAAAjcB9wZEwgAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAABoSURBVDiNxZO7DYAwDETfsQNdVqBhiTBypqKmO1pEAgpyJCy5Or+T/JNtIjGF6F4DSVlSkZQq0fZrAhtwADswV/oHeG3WROBHg164aQAsvbDt+BrHtzBkiEPWOOSQLiYZKEC6a/r9G0922YbzPVrpzwAAAABJRU5ErkJgggaa37d2ae1e9bdb35f16cee055ee584ea');
@@ -486,3 +486,95 @@
     opacity: 0.7;
     padding-right: 21px;
 }
+
+/*#region loadingbar */
+#loading-screenshot {
+    width: 256px;
+    height: 10px;
+    overflow: hidden;
+    background-color: #76ADF0;
+    border: 1px solid #D4D1D1;
+    direction: ltr;
+    margin-top: 60px;
+}
+
+.loading-screenshot {
+    background-color: #FFFFFF;
+    margin-top: 0;
+    margin-left: -256px;
+    -moz-animation-name: bounce_loading-screenshot;
+    -moz-animation-duration: 1.2s;
+    -moz-animation-iteration-count: infinite;
+    -moz-animation-timing-function: linear;
+    -webkit-animation-name: bounce_loading-screenshot;
+    -webkit-animation-duration: 1.2s;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-timing-function: linear;
+    -o-animation-name: bounce_loading-screenshot;
+    -o-animation-duration: 1.2s;
+    -o-animation-iteration-count: infinite;
+    -o-animation-timing-function: linear;
+    -ms-animation-name: bounce_loading-screenshot;
+    -ms-animation-duration: 1.2s;
+    -ms-animation-iteration-count: infinite;
+    -ms-animation-timing-function: linear;
+    animation-name: bounce_loading-screenshot;
+    animation-duration: 1.2s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+    width: 256px;
+    height: 10px;
+}
+
+@-moz-keyframes bounce_loading-screenshot {
+    0% {
+        margin-left: -256px;
+    }
+
+    100% {
+        margin-left: 256px;
+    }
+}
+
+@-webkit-keyframes bounce_loading-screenshot {
+    0% {
+        margin-left: -256px;
+    }
+
+    100% {
+        margin-left: 256px;
+    }
+}
+
+@-o-keyframes bounce_loading-screenshot {
+    0% {
+        margin-left: -256px;
+    }
+
+    100% {
+        margin-left: 256px;
+    }
+}
+
+@-ms-keyframes bounce_loading-screenshot {
+    0% {
+        margin-left: -256px;
+    }
+
+    100% {
+        margin-left: 256px;
+    }
+}
+
+@keyframes bounce_loading-screenshot {
+    0% {
+        margin-left: -256px;
+    }
+
+    100% {
+        margin-left: 256px;
+    }
+}
+/*#endregion */
+
+
