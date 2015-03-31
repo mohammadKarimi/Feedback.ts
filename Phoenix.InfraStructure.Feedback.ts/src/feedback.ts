@@ -227,16 +227,23 @@ module phoenix {
             $(document).on("click", "#fb-description-next", (event: JQueryEventObject) => this.nextToHighlighter());
             $(document).on("click", "#fb-highlighter-back", (event: JQueryEventObject) => this.backToDescription());
             $(document).on("click", "#fb-highlighter-next", (event: JQueryEventObject) => this.nextToOverview());
-            $(document).on('click', '.fb-sethighlight', (el: JQuery) => this.setHighlight(el));
-            $(document).on('click', '.fb-setblackout', (el: JQuery) => this.setBlackout(el));
-            $(document).on('click', '.fb-module-close', (el: JQuery) => this.closefbModule());
+            $(document).on('click', '.fb-sethighlight', () => this.setHighlight());
+            $(document).on('click', '.fb-setblackout', () => this.setBlackout());
+            $(document).on('click', '.fb-module-close', () => this.closefbModule());
             $(document).on('keyup', (event: JQueryEventObject) => this.keyUpCapture(event));
             $(document).on('mousedown', '#fb-highlighter', (event: JQueryEventObject) => this.draggableHighlighterbox(event));
             $(document).on('mouseup', '#fb-highlighter', (event: JQueryEventObject) => this.removeDraggableHighlighterbox(event));
             $(document).on('mouseup', '#fb-overview-back', (event: JQueryEventObject) => this.backToHighlighter());
+            $(document).on('click', "#fb-page-info", () => this.according_fb_page_info());
+            $(document).on('click', "#fb-browser-info", () => this.according_fb_browser_info());
+            $(document).on('click', "#fb-page-structure", () => this.according_fb_page_structure());
         }
         private closefbModule() {
             this.canDraw = false;
+            $(document).off('click', "#fb-browser-info");
+            $(document).off('click', "#fb-page-structure");
+            $(document).off('mouseup', '#fb-overview-back');
+            $(document).off('click', "#fb-page-info");
             $(document).off('click', "#fb-description-next");
             $(document).off('click', "#fb-highlighter-back");
             $(document).off('click', "#fb-highlighter-next");
@@ -278,63 +285,6 @@ module phoenix {
             $('#fb-description-error').hide();
             $('#fb-description').show();
         }
-        private nextToOverview(): void {
-            this.canDraw = false;
-            $('#fb-canvas').css('cursor', 'default');
-            $('#fb-highlighter').hide();
-            $('textarea#fb-overview-note').val($('#fb-note').val());
-            $("#fb-browser-infodetail").html('').append(
-                '<div class="text-right">نام کد برنامه : ' + this.browserInfo.appCodeName + ' </div > ' +
-                '<div class="text-right">نام برنامه : ' + this.browserInfo.appName + '</div>' +
-                '<div class="text-right">ورژن مرورگر : ' + this.browserInfo.appVersion + '</div>' +
-                '<div class="text-right">کوکی : ' + this.browserInfo.cookieEnabled + '</div>' +
-                '<div class="text-right">وضعیت شبکه : ' + this.browserInfo.onLine + '</div>' +
-                '<div class="text-right">پلتفرم : ' + this.browserInfo.platform + '</div>' +
-                '<div class="text-right">سیستم عامل کاربر : ' + this.browserInfo.userAgent + '</div>'
-                + '</div>');
-            $("#fb-page-infodetail").html('').append(this.browserInfo.currentUrl);
-            $("#fb-html-infodetail").text(this.browserInfo.html);
-            this.browserInfo.screenSnapshot = this.html2Canvas(this.documentWidth);
-        }
-        private html2Canvas(documentWidth: number): any {
-            var sy = $(document).scrollTop(),
-                wh = $(window).height();
-            var img;
-            html2canvas($('body'), {
-                onrendered: function (canvas) {
-                    var _canvas = $('<canvas id="fb-canvas-tmp" dir="rtl" width="' + documentWidth + '" height="' + wh + '"/>').hide().appendTo('body');
-                    var _ctx = _canvas.get(0).getContext('2d');
-                    _ctx.fillStyle = "#000";
-                    _ctx.font = "bold 16px Arial";
-                    _ctx.drawImage(canvas, 0, sy, documentWidth, wh, 0, 0, documentWidth, wh);
-                    img = _canvas.get(0).toDataURL();
-                    $(document).scrollTop(sy);
-                    $('#fb-canvas-tmp').remove();
-                    $('#fb-overview').show();
-                    $('#fb-overview-screenshot>img').remove();
-                    $('#fb-overview-screenshot').html('').append('<a href="'+img+'" target="_blank" ><img class="fb-screenshot" src="' + img + '" /></a>');
-                }
-            });
-            return img;
-        }
-        private backToHighlighter() {
-            this.canDraw = true;
-            $('#fb-canvas').css('cursor', 'crosshair');
-            $('#fb-overview').hide();
-            $('#fb-helpers').show();
-            $('#fb-highlighter').show();
-            $('#fb-overview-error').hide();
-        }
-        private setHighlight(el): void {
-            this.drawHighlight = true;
-            $('.fb-sethighlight').addClass('fb-active');
-            $('.fb-setblackout').removeClass('fb-active');
-        }
-        private setBlackout(el): void {
-            this.drawHighlight = false;
-            $('.fb-setblackout').addClass('fb-active');
-            $('.fb-sethighlight').removeClass('fb-active');
-        }
         private draggableHighlighterbox(event: JQueryEventObject): void {
             var $fb_highlighter = $(event.target).addClass('fb-draggable'),
                 drag_h = $fb_highlighter.outerHeight(),
@@ -369,6 +319,87 @@ module phoenix {
             $(event.target).removeClass('fb-draggable');
             $(event.target).parents().off('mousemove mousedown');
         }
+        private setHighlight(): void {
+            this.drawHighlight = true;
+            $('.fb-sethighlight').addClass('fb-active');
+            $('.fb-setblackout').removeClass('fb-active');
+        }
+        private setBlackout(): void {
+            this.drawHighlight = false;
+            $('.fb-setblackout').addClass('fb-active');
+            $('.fb-sethighlight').removeClass('fb-active');
+        }
+        private backToHighlighter(): void{
+            this.canDraw = true;
+            $('#fb-canvas').css('cursor', 'crosshair');
+            $('#fb-overview').hide();
+            $('#fb-helpers').show();
+            $('#fb-highlighter').show();
+            $('#fb-overview-error').hide();
+        }
+        private nextToOverview(): void {
+            this.canDraw = false;
+            $('#fb-canvas').css('cursor', 'default');
+            $('#fb-highlighter').hide();
+            $('textarea#fb-overview-note').val($('#fb-note').val());
+            $("#fb-browser-infodetail").html('').append(
+                '<div class="text-right">نام کد برنامه : ' + this.browserInfo.appCodeName + ' </div > ' +
+                '<div class="text-right">نام برنامه : ' + this.browserInfo.appName + '</div>' +
+                '<div class="text-right">ورژن مرورگر : ' + this.browserInfo.appVersion + '</div>' +
+                '<div class="text-right">کوکی : ' + this.browserInfo.cookieEnabled + '</div>' +
+                '<div class="text-right">وضعیت شبکه : ' + this.browserInfo.onLine + '</div>' +
+                '<div class="text-right">پلتفرم : ' + this.browserInfo.platform + '</div>' +
+                '<div class="text-right">سیستم عامل کاربر : ' + this.browserInfo.userAgent + '</div>'
+                + '</div>');
+            $("#fb-page-infodetail").html('').append(this.browserInfo.currentUrl);
+            $("#fb-html-infodetail").text(this.browserInfo.html);
+            this.browserInfo.screenSnapshot = this.html2Canvas(this.documentWidth);
+        }
+        private html2Canvas(documentWidth: number): any {
+            var sy = $(document).scrollTop(),
+                wh = $(window).height();
+            var img;
+            html2canvas($('body'), {
+                onrendered: function (canvas) {
+                    var _canvas = $('<canvas id="fb-canvas-tmp" dir="rtl" width="' + documentWidth + '" height="' + wh + '"/>').hide().appendTo('body');
+                    var _ctx = _canvas.get(0).getContext('2d');
+                    _ctx.fillStyle = "#000";
+                    _ctx.font = "bold 16px Arial";
+                    _ctx.drawImage(canvas, 0, sy, documentWidth, wh, 0, 0, documentWidth, wh);
+                    img = _canvas.get(0).toDataURL();
+                    $(document).scrollTop(sy);
+                    $('#fb-canvas-tmp').remove();
+                    $('#fb-overview').show();
+                    $('#fb-overview-screenshot').html('').append('<a href="' + img + '" target="_blank" ><img class="fb-screenshot" src="' + img + '" /></a>');
+                }
+            });
+            return img;
+        }
+        private according_fb_page_info(): void {
+            var el = $("#fb-page-infodetail");
+            if (el.hasClass('hide')) {
+                el.removeClass('hide');
+            } else {
+                el.addClass('hide');
+            }
+        }
+        private according_fb_browser_info(): void {
+            var el = $("#fb-browser-infodetail");
+            if (el.hasClass('hide')) {
+                el.removeClass('hide');
+            } else {
+                el.addClass('hide');
+            }
+        }
+        private according_fb_page_structure(): void {
+            var el = $("#fb-html-infodetail");
+            if (el.hasClass('hide')) {
+                el.removeClass('hide');
+            } else {
+                el.addClass('hide');
+            }
+        }
+
         public getfbTemplate(html2canvasSupport: boolean): actionResult<HTMLAnchorElement> {
             if (html2canvasSupport)
                 return {
