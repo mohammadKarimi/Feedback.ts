@@ -348,15 +348,13 @@ module phoenix {
             $('#fb-canvas').css('cursor', 'default');
             $('#fb-highlighter').hide();
             $('textarea#fb-overview-note').val($('#fb-note').val());
-            $("#fb-browser-infodetail").html('').append(
-                '<div class="text-right">نام کد برنامه : ' + this.browserInfo.appCodeName + ' </div > ' +
-                '<div class="text-right">نام برنامه : ' + this.browserInfo.appName + '</div>' +
-                '<div class="text-right">ورژن مرورگر : ' + this.browserInfo.appVersion + '</div>' +
-                '<div class="text-right">کوکی : ' + this.browserInfo.cookieEnabled + '</div>' +
-                '<div class="text-right">وضعیت شبکه : ' + this.browserInfo.onLine + '</div>' +
-                '<div class="text-right">پلتفرم : ' + this.browserInfo.platform + '</div>' +
-                '<div class="text-right">سیستم عامل کاربر : ' + this.browserInfo.userAgent + '</div>'
-                + '</div>');
+            $("#browserInfo-appCodeName").html(this.browserInfo.appCodeName);
+            $("#browserInfo-appName").html(this.browserInfo.appName);
+            $("#browserInfo-appVersion").html(this.browserInfo.appVersion);
+            $("#browserInfo-cookieEnabled").html(this.browserInfo.cookieEnabled.toString());
+            $("#browserInfo-onLine").html(this.browserInfo.onLine.toString());
+            $("#browserInfo-platform").html(this.browserInfo.platform);
+            $("#browserInfo-userAgent").html(this.browserInfo.userAgent);
             $("#fb-page-infodetail").html('').append(this.browserInfo.currentUrl);
             $("#fb-html-infodetail").text(this.browserInfo.html);
             this.browserInfo.screenSnapshot = this.html2Canvas(this.documentWidth);

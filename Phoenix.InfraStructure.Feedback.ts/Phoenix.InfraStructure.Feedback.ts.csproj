@@ -18,7 +18,7 @@
     <IISExpressUseClassicPipelineMode />
   </PropertyGroup>
   <ItemGroup>
-    <Content Include="example\index.html" />
+    <Content Include="example\index.rtl.html" />
     <Content Include="src\html2canvas.js" />
   </ItemGroup>
   <ItemGroup>
@@ -27,7 +27,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="src\styles\feedback.rtl.css" />
-    <Content Include="src\templates\fa-Ir\browserInfo.html" />
     <Content Include="src\templates\fa-Ir\browserNotSupport.html" />
     <Content Include="src\templates\fa-Ir\description.html" />
     <Content Include="src\templates\fa-Ir\highlighter.html" />
