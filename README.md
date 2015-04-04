@@ -53,7 +53,21 @@ JavaScript:
         var options = new phoenix.feedbackOptions(onStart, onClose);
         new phoenix.feedback("content", options);
 ```
-
+## Options
++ onStart : function (Optional) -> this method call befor feedback module is opened.
++ onClose : function (Optional) -> this method call after feedback module is closed.
++ url : string (Optional) -> this property for send feedback data to custom ajax url.
++ contentTemplate : any (Optional) -> this object contains all html templates in server
+# contentTemplate default : 
+   + description: "../src/templates/fa-Ir/description.html"
+   + highlighter: "../src/templates/fa-Ir/description.html"
+   + overview:    "../src/templates/fa-Ir/description.html"
+   + submitSuccess: "../src/templates/fa-Ir/description.html"
+   + submitError: "../src/templates/fa-Ir/description.html"
+   + browserNotSupport: "../src/templates/fa-Ir/description.html"
+   
+   *in new version all of them merged into one file*
+   
 ## Change log
 ***31.03.2015***
 + add order number of highlighter box
