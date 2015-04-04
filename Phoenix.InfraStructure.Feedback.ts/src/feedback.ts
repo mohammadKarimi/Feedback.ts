@@ -223,6 +223,12 @@ module phoenix {
             public browserNotSupport: any,
             public onClose: () => void) {
             super(window.innerWidth, window.innerHeight);
+            this.description = $.get(this.description, function (html) { return html; });
+            this.highlighter = $.get(this.highlighter, function (html) { return html; });
+            this.overview = $.get(this.overview, function (html) { return html; });
+            this.submitSuccess = $.get(this.submitSuccess, function (html) { return html; });
+            this.submitError = $.get(this.submitError, function (html) { return html; });
+            this.browserNotSupport = $.get(this.browserNotSupport, function (html) { return html; });
         }
 
         public initializeContent(): void {
@@ -430,6 +436,7 @@ module phoenix {
         }
 
         public getfbTemplate(html2canvasSupport: boolean): actionResult<HTMLAnchorElement> {
+
             if (html2canvasSupport)
                 return {
                     isSuccessfull: true,
@@ -460,12 +467,12 @@ module phoenix {
             public onClose: () => void = function () { },
             public url: string= "localhost/send",
             private contentTemplate: any = {
-                description: $.get("../src/templates/fa-Ir/description.html", function (html) { return html; }),
-                highlighter: $.get("../src/templates/fa-Ir/highlighter.html", function (html) { return html; }),
-                overview: $.get("../src/templates/fa-Ir/overview.html", function (html) { return html; }),
-                submitSuccess: $.get("../src/templates/fa-Ir/submitSuccess.html", function (html) { return html; }),
-                submitError: $.get("../src/templates/fa-Ir/submitError.html", function (html) { return html; }),
-                browserNotSupport: $.get("../src/templates/fa-Ir/browserNotSupport.html", function (html) { return html; })
+                description: "../src/templates/fa-Ir/description.html",
+                highlighter: "../src/templates/fa-Ir/highlighter.html",
+                overview: "../src/templates/fa-Ir/overview.html",
+                submitSuccess: "../src/templates/fa-Ir/submitSuccess.html",
+                submitError: "../src/templates/fa-Ir/submitError.html",
+                browserNotSupport: "../src/templates/fa-Ir/browserNotSupport.html",
             }) {
             this.fb_Content = new feedbackContent(
                 this.url,
