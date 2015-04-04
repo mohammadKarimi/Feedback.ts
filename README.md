@@ -31,6 +31,11 @@ for feedback tool you need add feedback.js ( compiled feedback.ts - typescript) 
 ```html
   <script src="../src/feedback.js"></script>
   ```
+  
+  Also you should load the stylesheet of the feedback:
+  ```html
+<link href="../src/styles/feedback.rtl.css" rel="stylesheet" />
+  ```
 
 
 
