@@ -467,6 +467,10 @@ var phoenix;
 
     var feedbackOptions = (function () {
         function feedbackOptions(onStart, onClose, url, contentTemplate) {
+            if (typeof onStart === "undefined") { onStart = function () {
+            }; }
+            if (typeof onClose === "undefined") { onClose = function () {
+            }; }
             if (typeof url === "undefined") { url = "localhost/send"; }
             if (typeof contentTemplate === "undefined") { contentTemplate = {
                 description: $.get("../src/templates/fa-Ir/description.html", function (html) {

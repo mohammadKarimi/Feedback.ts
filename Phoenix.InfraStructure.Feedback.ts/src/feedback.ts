@@ -456,8 +456,8 @@ module phoenix {
     export class feedbackOptions {
         private fb_Content: feedbackContent;
         constructor(
-            public onStart: () => void,
-            public onClose: () => void,
+            public onStart: () => void = function () { },
+            public onClose: () => void = function () { },
             public url: string= "localhost/send",
             private contentTemplate: any = {
                 description: $.get("../src/templates/fa-Ir/description.html", function (html) { return html; }),
