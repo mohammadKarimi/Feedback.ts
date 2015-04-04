@@ -36,6 +36,28 @@ for feedback tool you need add feedback.js ( compiled feedback.ts - typescript) 
   ```html
 <link href="../src/styles/feedback.rtl.css" rel="stylesheet" />
   ```
+## Example
+Html :
+```html
+<button id="content">feedback</button>
+```
+JavaScript:
+```javascript
+  function onStart() {
+            console.log('onStart');
+        }
+        function onClose() {
+            console.log('onClose');
+        }
+
+        var options = new phoenix.feedbackOptions(onStart, onClose);
+        new phoenix.feedback("content", options);
+```
+
+## Change log
+***31.03.2015***
++ add order number of highlighter box
++ add highlightTextbox under the lighter box for type additional description for each highlighter box
 
 
 
