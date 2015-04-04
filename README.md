@@ -54,10 +54,10 @@ JavaScript:
         new phoenix.feedback("content", options);
 ```
 ## Options
-+onStart : function (Optional) -> this method call befor feedback module is opened.
-+onClose : function (Optional) -> this method call after feedback module is closed.
-+url : string (Optional) -> this property for send feedback data to custom ajax url.
-+contentTemplate : any (Optional) -> this object contains all html templates in server
++ onStart : function (Optional) -> this method call befor feedback module is opened.
++ onClose : function (Optional) -> this method call after feedback module is closed.
++ url : string (Optional) -> this property for send feedback data to custom ajax url.
++ contentTemplate : any (Optional) -> this object contains all html templates in server
   default : 
    description: "../src/templates/fa-Ir/description.html"
    highlighter: "../src/templates/fa-Ir/description.html"
