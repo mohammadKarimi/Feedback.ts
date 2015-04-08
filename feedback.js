@@ -534,14 +534,14 @@ var phoenix;
     phoenix.feedbackOptions = feedbackOptions;
     var feedback = (function () {
         function feedback($element, feedbackOptions) {
-            
             var _this = this;
             this.$element = $element;
             this.feedbackOptions = feedbackOptions;
-            $("#" + $element).on("click", function (event) {
-                             return _this.openfb(event);
+            $(document).on("click", "#" + $element, function (event) {
+
+                return _this.openfb(event);
+
             });
-            console.log($("#"+$element));
         }
         feedback.prototype.openfb = function (event) {
             this.feedbackOptions.onStart.call(this);
