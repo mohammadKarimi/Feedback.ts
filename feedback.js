@@ -491,12 +491,12 @@ var phoenix;
             }; }
             if (typeof url === "undefined") { url = "localhost/send"; }
             if (typeof contentTemplate === "undefined") { contentTemplate = {
-                description: "Feedback.ts/templates/fa-Ir/description.html",
-                highlighter: "Feedback.ts/templates/fa-Ir/highlighter.html",
-                overview: "Feedback.ts/templates/fa-Ir/overview.html",
-                submitSuccess: "Feedback.ts/templates/fa-Ir/submitSuccess.html",
-                submitError: "Feedback.ts/templates/fa-Ir/submitError.html",
-                browserNotSupport: "Feedback.ts/templates/fa-Ir/browserNotSupport.html"
+                description: "templates/fa-Ir/description.html",
+                highlighter: "templates/fa-Ir/highlighter.html",
+                overview: "templates/fa-Ir/overview.html",
+                submitSuccess: "templates/fa-Ir/submitSuccess.html",
+                submitError: "templates/fa-Ir/submitError.html",
+                browserNotSupport: "templates/fa-Ir/browserNotSupport.html"
             }; }
             this.onStart = onStart;
             this.onClose = onClose;
