@@ -14,16 +14,17 @@
     <script src="html2canvas.js"></script>
     <script src="feedback.js"></script>
     <script>
-        function onStart() {
-            console.log('onStart');
-        }
-        function onClose() {
-            console.log('onClose');
-        }
+        $(document).ready(function () {
+            function onStart() {
+                console.log('onStart');
+            }
+            function onClose() {
+                console.log('onClose');
+            }
 
-        var options = new phoenix.feedbackOptions(onStart, onClose, "home/feedback");
-        new phoenix.feedback("btn-feedback", options);
-      
+            var options = new phoenix.feedbackOptions(onStart, onClose, "home/feedback");
+            new phoenix.feedback("btn-feedback", options);
+        });
     </script>
 
 </head>
