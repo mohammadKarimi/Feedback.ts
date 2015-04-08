@@ -538,6 +538,7 @@ var phoenix;
             this.$element = $element;
             this.feedbackOptions = feedbackOptions;
             $("#" + $element).on("click", function (event) {
+                console.log('btn feedback click');
                 return _this.openfb(event);
             });
         }
