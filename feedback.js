@@ -534,6 +534,7 @@ var phoenix;
     phoenix.feedbackOptions = feedbackOptions;
     var feedback = (function () {
         function feedback($element, feedbackOptions) {
+             console.log('btn feedback event');
             var _this = this;
             this.$element = $element;
             this.feedbackOptions = feedbackOptions;
