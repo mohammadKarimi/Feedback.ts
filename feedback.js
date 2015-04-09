@@ -200,15 +200,10 @@ var phoenix;
     })();
     var feedbackContent = (function (_super) {
         __extends(feedbackContent, _super);
-        function feedbackContent(url, description, highlighter, overview, submitSuccess, submitError, browserNotSupport, onClose) {
+        function feedbackContent(url, contentTemplate, onClose) {
             _super.call(this, $(document).width(), $(document).height());
             this.url = url;
-            this.description = description;
-            this.highlighter = highlighter;
-            this.overview = overview;
-            this.submitSuccess = submitSuccess;
-            this.submitError = submitError;
-            this.browserNotSupport = browserNotSupport;
+            this.contentTemplate = contentTemplate;
             this.onClose = onClose;
             this.convasTag = '<canvas dir="rtl" id="fb-canvas" style="z-index=999999" width="' + $(document).width() + '" height="' + $(document).height() + '"></canvas>';
             this.moduleTag = '<div id="fb-module" position="absolute" left="0px" top="0px">';
@@ -218,22 +213,7 @@ var phoenix;
             this.browserInfo = browserInfo.getInformation();
             this.documentHeight = $(document).height();
             this.documentWidth = $(document).width();
-            this.description = $.get(this.description, function (html) {
-                return html;
-            });
-            this.highlighter = $.get(this.highlighter, function (html) {
-                return html;
-            });
-            this.overview = $.get(this.overview, function (html) {
-                return html;
-            });
-            this.submitSuccess = $.get(this.submitSuccess, function (html) {
-                return html;
-            });
-            this.submitError = $.get(this.submitError, function (html) {
-                return html;
-            });
-            this.browserNotSupport = $.get(this.browserNotSupport, function (html) {
+            this.contentTemplate = $.get(this.contentTemplate, function (html) {
                 return html;
             });
         }
@@ -418,7 +398,7 @@ var phoenix;
                     setTimeout(function () {
                         $('#fb-screenshot').html('').append('<a href="' + img + '" target="_blank" ><img class="fb-screenshot fb-screenshot-border fb-screenshot-fadeIn" src="' + img + '" /></a>');
                         $("#loading-screenshot").hide();
-                    }, 1200);
+                    }, 2000);
                 }
             });
             return img;
@@ -472,11 +452,11 @@ var phoenix;
             if (html2canvasSupport)
                 return {
                     isSuccessfull: true,
-                    result: this.moduleTag + this.description.responseText + this.highlighter.responseText + this.overview.responseText + this.submitSuccess.responseText + this.submitError.responseText + this.convasTag + this.helperTag + this.noteTag + this.endTag
+                    result: this.moduleTag + this.contentTemplate.responseText.replace('fb-description-hide', 'fb-description-show').replace('fb-browser-notsupport-show', 'fb-browser-notsupport-hide') + this.convasTag + this.helperTag + this.noteTag + this.endTag
                 };
             return {
                 isSuccessfull: false,
-                result: this.moduleTag + this.browserNotSupport.responseText + this.endTag
+                result: this.moduleTag + this.contentTemplate.responseText.replace('fb-description-show', 'fb-description-hide').replace('fb-browser-notsupport-hide', 'fb-browser-notsupport-show') + this.endTag
             };
         };
         return feedbackContent;
@@ -493,22 +473,13 @@ var phoenix;
                 };
             }
             if (typeof url === "undefined") { url = "localhost/send"; }
-            if (typeof contentTemplate === "undefined") {
-                contentTemplate = {
-                    description: "templates/fa-Ir/description.html",
-                    highlighter: "templates/fa-Ir/highlighter.html",
-                    overview: "templates/fa-Ir/overview.html",
-                    submitSuccess: "templates/fa-Ir/submitSuccess.html",
-                    submitError: "templates/fa-Ir/submitError.html",
-                    browserNotSupport: "templates/fa-Ir/browserNotSupport.html"
-                };
-            }
+            if (typeof contentTemplate === "undefined") { contentTemplate = "templates/fa-Ir/template.html"; }
             this.onStart = onStart;
             this.onClose = onClose;
             this.url = url;
             this.contentTemplate = contentTemplate;
             this.html2ConvasSupport = true;
-            this.fb_Content = new feedbackContent(this.url, this.contentTemplate.description, this.contentTemplate.highlighter, this.contentTemplate.overview, this.contentTemplate.submitSuccess, this.contentTemplate.submitError, this.contentTemplate.browserNotSupport, this.onClose);
+            this.fb_Content = new feedbackContent(this.url, this.contentTemplate, this.onClose);
         }
         feedbackOptions.prototype.getfbTemplate = function () {
             return this.fb_Content.getfbTemplate(this.html2ConvasSupport);
