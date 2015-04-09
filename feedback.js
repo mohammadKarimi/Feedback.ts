@@ -201,7 +201,7 @@ var phoenix;
     var feedbackContent = (function (_super) {
         __extends(feedbackContent, _super);
         function feedbackContent(url, description, highlighter, overview, submitSuccess, submitError, browserNotSupport, onClose) {
-            _super.call(this, window.innerWidth, window.innerHeight);
+            _super.call(this, $(document).width(), $(document).height());
             this.url = url;
             this.description = description;
             this.highlighter = highlighter;
@@ -210,14 +210,14 @@ var phoenix;
             this.submitError = submitError;
             this.browserNotSupport = browserNotSupport;
             this.onClose = onClose;
-            this.convasTag = '<canvas dir="rtl" id="fb-canvas" style="z-index=999999" width="' + window.innerWidth + '" height="' + window.innerHeight + '"></canvas>';
+            this.convasTag = '<canvas dir="rtl" id="fb-canvas" style="z-index=999999" width="' + $(document).width() + '" height="' + $(document).height() + '"></canvas>';
             this.moduleTag = '<div id="fb-module" position="absolute" left="0px" top="0px">';
             this.helperTag = '<div id="fb-helpers"></div>';
             this.noteTag = '<input id="fb-note" name="fb-note" type="hidden"></div>';
             this.endTag = '</div>';
             this.browserInfo = browserInfo.getInformation();
-            this.documentHeight = window.innerHeight;
-            this.documentWidth = window.innerWidth;
+            this.documentHeight = $(document).height();
+            this.documentWidth = $(document).width();
             this.description = $.get(this.description, function (html) {
                 return html;
             });
@@ -383,6 +383,7 @@ var phoenix;
             $('#fb-overview-error').hide();
         };
         feedbackContent.prototype.nextToOverview = function () {
+            $('html, body').scrollTop(0);
             this.canDraw = false;
             $('#fb-screenshot').html('');
             $("#loading-screenshot").fadeIn();
@@ -398,19 +399,18 @@ var phoenix;
             $("#browserInfo-userAgent").html(this.browserInfo.userAgent);
             $("#fb-page-infodetail").html('').append(this.browserInfo.currentUrl);
             $("#fb-html-infodetail").text(this.browserInfo.html);
-            this.browserInfo.screenSnapshot = this.html2Canvas(this.documentWidth);
+            this.browserInfo.screenSnapshot = this.html2Canvas(this.documentWidth, this.documentHeight);
         };
-        feedbackContent.prototype.html2Canvas = function (documentWidth) {
-            var sy = $(document).scrollTop(), wh = $(window).height();
+        feedbackContent.prototype.html2Canvas = function (documentWidth, docoumentheight) {
+            var sy = $(document).scrollTop();
             var img;
-
             html2canvas($('body'), {
                 onrendered: function (canvas) {
-                    var _canvas = $('<canvas id="fb-canvas-tmp" dir="rtl" width="' + documentWidth + '" height="' + wh + '"/>').hide().appendTo('body');
+                    var _canvas = $('<canvas id="fb-canvas-tmp" dir="rtl" width="' + documentWidth + '" height="' + docoumentheight + '"/>').hide().appendTo('body');
                     var _ctx = _canvas.get(0).getContext('2d');
                     _ctx.fillStyle = "#000";
                     _ctx.font = "bold 16px Arial";
-                    _ctx.drawImage(canvas, 0, sy, documentWidth, wh, 0, 0, documentWidth, wh);
+                    _ctx.drawImage(canvas, 0, sy, documentWidth, docoumentheight, 0, 0, documentWidth, docoumentheight);
                     img = _canvas.get(0).toDataURL();
                     $(document).scrollTop(sy);
                     $('#fb-canvas-tmp').remove();
@@ -468,7 +468,6 @@ var phoenix;
                 }
             });
         };
-
         feedbackContent.prototype.getfbTemplate = function (html2canvasSupport) {
             if (html2canvasSupport)
                 return {
@@ -485,19 +484,25 @@ var phoenix;
 
     var feedbackOptions = (function () {
         function feedbackOptions(onStart, onClose, url, contentTemplate) {
-            if (typeof onStart === "undefined") { onStart = function () {
-            }; }
-            if (typeof onClose === "undefined") { onClose = function () {
-            }; }
+            if (typeof onStart === "undefined") {
+                onStart = function () {
+                };
+            }
+            if (typeof onClose === "undefined") {
+                onClose = function () {
+                };
+            }
             if (typeof url === "undefined") { url = "localhost/send"; }
-            if (typeof contentTemplate === "undefined") { contentTemplate = {
-                description: "templates/fa-Ir/description.html",
-                highlighter: "templates/fa-Ir/highlighter.html",
-                overview: "templates/fa-Ir/overview.html",
-                submitSuccess: "templates/fa-Ir/submitSuccess.html",
-                submitError: "templates/fa-Ir/submitError.html",
-                browserNotSupport: "templates/fa-Ir/browserNotSupport.html"
-            }; }
+            if (typeof contentTemplate === "undefined") {
+                contentTemplate = {
+                    description: "../src/templates/fa-Ir/description.html",
+                    highlighter: "../src/templates/fa-Ir/highlighter.html",
+                    overview: "../src/templates/fa-Ir/overview.html",
+                    submitSuccess: "../src/templates/fa-Ir/submitSuccess.html",
+                    submitError: "../src/templates/fa-Ir/submitError.html",
+                    browserNotSupport: "../src/templates/fa-Ir/browserNotSupport.html"
+                };
+            }
             this.onStart = onStart;
             this.onClose = onClose;
             this.url = url;
@@ -537,7 +542,7 @@ var phoenix;
             var _this = this;
             this.$element = $element;
             this.feedbackOptions = feedbackOptions;
-            $(document).on("click", "#" + $element, function (event) {
+            $("#" + $element).on("click", function (event) {
                 return _this.openfb(event);
             });
         }
