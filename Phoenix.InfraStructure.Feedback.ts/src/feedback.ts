@@ -373,7 +373,7 @@ module phoenix {
                     setTimeout(function () {
                         $('#fb-screenshot').html('').append('<a href="' + img + '" target="_blank" ><img class="fb-screenshot fb-screenshot-border fb-screenshot-fadeIn" src="' + img + '" /></a>');
                         $("#loading-screenshot").hide();
-                    }, 1200);
+                    }, 2000);
                 }
             });
             return img;
@@ -430,7 +430,10 @@ module phoenix {
                     isSuccessfull: true,
                     result:
                     this.moduleTag +
-                    this.contentTemplate.responseText.replace($('#fb-browser-notsupport').html(), '') +
+                    this.contentTemplate.responseText
+                        .replace('fb-description-hide', 'fb-description-show')
+                        .replace('fb-browser-notsupport-show', 'fb-browser-notsupport-hide')
+                    +
                     this.convasTag +
                     this.helperTag +
                     this.noteTag + this.endTag
@@ -439,11 +442,8 @@ module phoenix {
                 isSuccessfull: false,
                 result: this.moduleTag +
                 this.contentTemplate.responseText
-                    .replace($('#fb-description').html(), '')
-                    .replace($('#fb-highlighter').html(), '')
-                    .replace($('#fb-overview').html(), '')
-                    .replace($('#fb-submit-success').html(), '')
-                    .replace($('#fb-submit-error').html(),'')
+                    .replace('fb-description-show', 'fb-description-hide')
+                    .replace('fb-browser-notsupport-hide', 'fb-browser-notsupport-show')
                 +
                 this.endTag
             }
@@ -486,7 +486,7 @@ module phoenix {
                 }
             }
         }
-        private html2ConvasSupport: boolean = !!window.HTMLCanvasElement;
+        private html2ConvasSupport: boolean = true;// !!window.HTMLCanvasElement;
     }
     export class feedback {
         constructor(private $element: string, private feedbackOptions: feedbackOptions) {

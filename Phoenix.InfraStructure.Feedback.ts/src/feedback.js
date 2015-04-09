@@ -398,7 +398,7 @@ var phoenix;
                     setTimeout(function () {
                         $('#fb-screenshot').html('').append('<a href="' + img + '" target="_blank" ><img class="fb-screenshot fb-screenshot-border fb-screenshot-fadeIn" src="' + img + '" /></a>');
                         $("#loading-screenshot").hide();
-                    }, 1200);
+                    }, 2000);
                 }
             });
             return img;
@@ -452,11 +452,11 @@ var phoenix;
             if (html2canvasSupport)
                 return {
                     isSuccessfull: true,
-                    result: this.moduleTag + this.contentTemplate.responseText.replace($('#fb-browser-notsupport').html(), '') + this.convasTag + this.helperTag + this.noteTag + this.endTag
+                    result: this.moduleTag + this.contentTemplate.responseText.replace('fb-description-hide', 'fb-description-show').replace('fb-browser-notsupport-show', 'fb-browser-notsupport-hide') + this.convasTag + this.helperTag + this.noteTag + this.endTag
                 };
             return {
                 isSuccessfull: false,
-                result: this.moduleTag + this.contentTemplate.responseText.replace($('#fb-description').html(), '').replace($('#fb-highlighter').html(), '').replace($('#fb-overview').html(), '').replace($('#fb-submit-success').html(), '').replace($('#fb-submit-error').html(), '') + this.endTag
+                result: this.moduleTag + this.contentTemplate.responseText.replace('fb-description-show', 'fb-description-hide').replace('fb-browser-notsupport-hide', 'fb-browser-notsupport-show') + this.endTag
             };
         };
         return feedbackContent;
@@ -474,7 +474,7 @@ var phoenix;
             this.onClose = onClose;
             this.url = url;
             this.contentTemplate = contentTemplate;
-            this.html2ConvasSupport = !!window.HTMLCanvasElement;
+            this.html2ConvasSupport = true;
             this.fb_Content = new feedbackContent(this.url, this.contentTemplate, this.onClose);
         }
         feedbackOptions.prototype.getfbTemplate = function () {

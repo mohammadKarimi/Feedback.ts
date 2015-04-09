@@ -5,6 +5,7 @@
     font-style: normal;
 }
 
+
 .highlightCounter {
     position: absolute;
     top: -8px;
@@ -193,8 +194,14 @@
     position: fixed;
     width: 680px !important;
 }
+.fb-description-hide{
+   display: none !important;
+}
+.fb-browser-notsupport-hide {
+    display: none !important;
+}
 
-#fb-browser-notsupport {
+.fb-browser-notsupport-show {
     display: inline !important;
 }
 
@@ -488,7 +495,7 @@
 }
 
 /*#region loadingbar */
- 
+
 #loading-screenshot {
     width: 256px;
     height: 10px;
