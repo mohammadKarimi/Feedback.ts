@@ -367,7 +367,6 @@ module phoenix {
                     _ctx.font = "bold 16px Arial";
                     _ctx.drawImage(canvas, 0, sy, documentWidth, docoumentheight, 0, 0, documentWidth, docoumentheight);
                     img = _canvas.get(0).toDataURL();
-                    $(document).scrollTop(sy);
                     $('#fb-canvas-tmp').remove();
                     $('#fb-overview').show();
                     setTimeout(function () {
