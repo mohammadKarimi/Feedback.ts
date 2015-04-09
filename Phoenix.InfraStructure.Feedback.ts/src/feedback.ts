@@ -204,14 +204,14 @@ module phoenix {
         }
     }
     class feedbackContent extends feedbackCanvas {
-        private convasTag: any = '<canvas dir="rtl" id="fb-canvas" style="z-index=999999" width="' + window.innerWidth + '" height="' + window.innerHeight + '"></canvas>';
+        private convasTag: any = '<canvas dir="rtl" id="fb-canvas" style="z-index=999999" width="' + $(document).width() + '" height="' + $(document).height() + '"></canvas>';
         private moduleTag: any = '<div id="fb-module" position="absolute" left="0px" top="0px">';
         private helperTag: any = '<div id="fb-helpers"></div>';
         private noteTag: any = '<input id="fb-note" name="fb-note" type="hidden"></div>';
         private endTag: any = '</div>';
         private browserInfo: browserInfo = browserInfo.getInformation();
-        public documentHeight: number = window.innerHeight;
-        public documentWidth: number = window.innerWidth;
+        public documentHeight: number = $(document).height();
+        public documentWidth: number = $(document).width();
 
         constructor(
             private url: string,
@@ -222,7 +222,7 @@ module phoenix {
             public submitError: any,
             public browserNotSupport: any,
             public onClose: () => void) {
-            super(window.innerWidth, window.innerHeight);
+            super($(document).width(), $(document).height());
             this.description = $.get(this.description, function (html) { return html; });
             this.highlighter = $.get(this.highlighter, function (html) { return html; });
             this.overview = $.get(this.overview, function (html) { return html; });
@@ -367,7 +367,7 @@ module phoenix {
         }
         private html2Canvas(documentWidth: number): any {
             var sy = $(document).scrollTop(),
-                wh = $(window).height();
+                wh = $(document).height();
             var img;
 
             html2canvas($('body'), {

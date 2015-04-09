@@ -1,4 +1,4 @@
-﻿var __extends = this.__extends || function (d, b) {
+var __extends = this.__extends || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     __.prototype = b.prototype;
@@ -201,7 +201,7 @@ var phoenix;
     var feedbackContent = (function (_super) {
         __extends(feedbackContent, _super);
         function feedbackContent(url, description, highlighter, overview, submitSuccess, submitError, browserNotSupport, onClose) {
-            _super.call(this, window.innerWidth, window.innerHeight);
+            _super.call(this, $(document).width(), $(document).height());
             this.url = url;
             this.description = description;
             this.highlighter = highlighter;
@@ -210,14 +210,14 @@ var phoenix;
             this.submitError = submitError;
             this.browserNotSupport = browserNotSupport;
             this.onClose = onClose;
-            this.convasTag = '<canvas dir="rtl" id="fb-canvas" style="z-index=999999" width="' + window.innerWidth + '" height="' + window.innerHeight + '"></canvas>';
+            this.convasTag = '<canvas dir="rtl" id="fb-canvas" style="z-index=999999" width="' + $(document).width() + '" height="' + $(document).height() + '"></canvas>';
             this.moduleTag = '<div id="fb-module" position="absolute" left="0px" top="0px">';
             this.helperTag = '<div id="fb-helpers"></div>';
             this.noteTag = '<input id="fb-note" name="fb-note" type="hidden"></div>';
             this.endTag = '</div>';
             this.browserInfo = browserInfo.getInformation();
-            this.documentHeight = window.innerHeight;
-            this.documentWidth = window.innerWidth;
+            this.documentHeight = $(document).height();
+            this.documentWidth = $(document).width();
             this.description = $.get(this.description, function (html) {
                 return html;
             });
@@ -401,7 +401,7 @@ var phoenix;
             this.browserInfo.screenSnapshot = this.html2Canvas(this.documentWidth);
         };
         feedbackContent.prototype.html2Canvas = function (documentWidth) {
-            var sy = $(document).scrollTop(), wh = $(window).height();
+            var sy = $(document).scrollTop(), wh = $(document).height();
             var img;
 
             html2canvas($('body'), {
