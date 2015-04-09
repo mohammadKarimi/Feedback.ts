@@ -495,12 +495,12 @@ var phoenix;
             if (typeof url === "undefined") { url = "localhost/send"; }
             if (typeof contentTemplate === "undefined") {
                 contentTemplate = {
-                    description: "../src/templates/fa-Ir/description.html",
-                    highlighter: "../src/templates/fa-Ir/highlighter.html",
-                    overview: "../src/templates/fa-Ir/overview.html",
-                    submitSuccess: "../src/templates/fa-Ir/submitSuccess.html",
-                    submitError: "../src/templates/fa-Ir/submitError.html",
-                    browserNotSupport: "../src/templates/fa-Ir/browserNotSupport.html"
+                    description: "templates/fa-Ir/description.html",
+                    highlighter: "templates/fa-Ir/highlighter.html",
+                    overview: "templates/fa-Ir/overview.html",
+                    submitSuccess: "templates/fa-Ir/submitSuccess.html",
+                    submitError: "templates/fa-Ir/submitError.html",
+                    browserNotSupport: "templates/fa-Ir/browserNotSupport.html"
                 };
             }
             this.onStart = onStart;
