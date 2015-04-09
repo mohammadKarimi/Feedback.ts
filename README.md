@@ -58,8 +58,7 @@ JavaScript:
 + onClose : function (Optional) -> this method call after feedback module is closed.
 + url : string (Optional) -> this property for send feedback data to custom ajax url.
 + contentTemplate : string (Optional) -> this string is address of templates in server
-
-## contentTemplate default : "../src/templates/fa-Ir/templates.html"
++ contentTemplate default : "../src/templates/fa-Ir/templates.html"
  
    
 ## Change log
