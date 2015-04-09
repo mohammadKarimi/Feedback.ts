@@ -473,7 +473,7 @@ var phoenix;
                 };
             }
             if (typeof url === "undefined") { url = "localhost/send"; }
-            if (typeof contentTemplate === "undefined") { contentTemplate = "templates/fa-Ir/template.html"; }
+            if (typeof contentTemplate === "undefined") { contentTemplate = "templates/fa-Ir/templates.html"; }
             this.onStart = onStart;
             this.onClose = onClose;
             this.url = url;
