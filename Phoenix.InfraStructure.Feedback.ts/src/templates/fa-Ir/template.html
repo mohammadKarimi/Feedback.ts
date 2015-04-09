@@ -1,0 +1,143 @@
+﻿<!-- #region description -->
+
+<div id="fb-description">
+    <div class="fb-logo">سیستم بازخورد</div>
+    <div class="fb-text">
+        سیستم بازخورد به شما این اجازه را میدهد که انتقادات و پیشنهادهایتان را با ما در میان بگذارید
+    </div>
+    <div class="fb-text">موضوع:</div>
+    <select>
+        <option>انتقاد</option>
+    </select>
+    <div class="fb-text">توضیحات:</div>
+    <textarea id="fb-note"></textarea>
+    <div class="fb-text">در مرحله بعدی شما می توانید توضیحات خود را با ابزار ارائه شده مشخص نمایید</div>
+    <button id="fb-description-next" class="fb-next-btn fb-btn-blue">مرحله بعد</button>
+    <div class="fb-module-close"></div>
+</div>
+
+<!-- #endregion -->
+ 
+<!-- #region highlighter -->
+
+<div id="fb-highlighter">
+    <div class="fb-logo">سیستم بازخورد</div>
+    <div class="fb-text m-bottom-20">
+        لطفا بر روی ابزار های پائین کلیک نمایید و سپس بر روی صفحه بگیرید و بکشید.
+    </div>
+    <button id="fb-sethighlight" class="fb-sethighlight fb-active">
+        <div class="ico"></div>
+        <span>مشخص سازی</span>
+    </button>
+    <label>مکان های مورد نظر خود را با این ابزار مشخص نمایید</label>
+    <button id="fb-setblackout" class="fb-setblackout">
+        <div class="ico">
+        </div><span>مخفی سازی</span>
+    </button>
+    <label class="lower">اطلاعات شخصی خود را با این ابزار مخفی نمایید</label>
+    <div class="fb-buttons">
+        <button id="fb-highlighter-next" class="fb-next-btn fb-btn-blue">مرحله بعد</button>
+        <button id="fb-highlighter-back" class="fb-back-btn fb-btn-gray">مرحله قبلی</button>
+    </div><div class="fb-module-close"></div>
+</div>
+
+<!-- #endregion -->
+
+<!-- #region overview -->
+<div id="fb-overview">
+    <div class="fb-module-close"></div>
+    <div class="fb-logo">سیستم بازخورد</div>
+    <div id="fb-overview-description">
+        <div id="fb-overview-description-text">
+            <h3 class="fb-title">توضیحات</h3>
+            <textarea id="fb-overview-note"></textarea>
+            <h3 class="fb-additional fb-title">اطلاعات بیشتر</h3>
+            <div id="fb-browser-info">
+                <div class="according">اطلاعات مرورگر</div>
+                <div class="hide" id="fb-browser-infodetail">
+                    <div class="text-right">
+                        نام کد برنامه :
+                        <span id="browserInfo-appCodeName"></span>
+                    </div>
+                    <div class="text-right">
+                        نام برنامه :
+                        <span id="browserInfo-appName"></span>
+                    </div>
+                    <div class="text-right">
+                        ورژن مرورگر :
+                        <span id="browserInfo-appVersion"></span>
+                    </div>
+                    <div class="text-right">
+                        کوکی :
+                        <span id="browserInfo-cookieEnabled"></span>
+                    </div>
+                    <div class="text-right">
+                        وضعیت شبکه :
+                        <span id="browserInfo-onLine"></span>
+                    </div>
+                    <div class="text-right">
+                        پلتفرم :
+                        <span id="browserInfo-platform"></span>
+                    </div>
+                    <div class="text-right">
+                        سیستم عامل کاربر :
+                        <span id="browserInfo-userAgent"></span>
+                    </div>
+                </div>
+            </div>
+            <div id="fb-page-info">
+                <div class="according">اطلاعات صفحه</div>
+                <div class="hide text-left" id="fb-page-infodetail"></div>
+            </div>
+            <div id="fb-page-structure">
+                <div class="according">ساختار صفحه</div>
+                <div class="hide text-left" id="fb-html-infodetail">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="fb-overview-screenshot">
+        <h3 class="fb-title">تصویر صفحه</h3>
+        <div id="loading-screenshot">
+            <div id="loading-screenshot_1" class="loading-screenshot">
+            </div>
+        </div>
+        <div id="fb-screenshot" class=" fb-screenshot">
+        </div>
+    </div>
+    <div class="fb-buttons">
+        <button id="fb-submit" class="fb-submit-btn fb-btn-blue">ارسال بازخورد</button>
+        <button id="fb-overview-back" class="fb-back-btn fb-btn-gray">مرحله قبلی</button>
+    </div>
+</div>
+
+<!-- #endregion -->
+
+<!-- #region submitSuccess -->
+<div id="fb-submit-success">
+    <div class="fb-logo">سیستم بازخورد</div>
+    <div class="fb-text">با تشکر از ارسال بازخورد شما.</div>
+    <div class="fb-text">ما نمیتوانیم تمام بازخورد های ارسالی را به صورت تک به تک پاسخ دهیم اما بازخورد ها میتواند تجربه کاری ما را برای ارتقا سیستم ها افزایش دهد.</div>
+    <button class="fb-close-btn fb-btn-blue">بستن</button>
+    <div class="fb-module-close"></div>
+</div>
+<!-- #endregion -->
+
+<!-- #region submitError -->
+<div id="fb-submit-error">
+    <div class="fb-logo">سیستم بازخورد</div>
+    <div class="fb-text">متاسفانه ارسال بازخورد با خطا مواجه شد لطفا مجددا تلاش نمایید</div>
+    <button class="fb-close-btn fb-btn-blue">بستن</button>
+    <div class="fb-module-close"></div>
+</div>
+<!-- #endregion -->
+
+<!-- #region browserNotSupport -->
+
+<div id="fb-browser-notsupport">
+    <div class="fb-logo">سیستم بازخورد</div>
+    <div class="fb-text">متاسفانه مرورگر شما از این امکان پشتیبانی نمی کند لطفا مرورگر دیگری استفاده نمایید</div>
+    <button class="fb-close-btn fb-btn-blue">بستن</button>
+    <div class="fb-module-close"></div>
+</div>
+<!-- #endregion -->

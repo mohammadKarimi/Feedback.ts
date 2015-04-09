@@ -215,20 +215,10 @@ module phoenix {
 
         constructor(
             private url: string,
-            public description: any,
-            public highlighter: any,
-            public overview: any,
-            public submitSuccess: any,
-            public submitError: any,
-            public browserNotSupport: any,
+            public contentTemplate: any,
             public onClose: () => void) {
             super($(document).width(), $(document).height());
-            this.description = $.get(this.description, function (html) { return html; });
-            this.highlighter = $.get(this.highlighter, function (html) { return html; });
-            this.overview = $.get(this.overview, function (html) { return html; });
-            this.submitSuccess = $.get(this.submitSuccess, function (html) { return html; });
-            this.submitError = $.get(this.submitError, function (html) { return html; });
-            this.browserNotSupport = $.get(this.browserNotSupport, function (html) { return html; });
+            this.contentTemplate = $.get(this.contentTemplate, function (html) { return html; });
         }
 
         public initializeContent(): void {
@@ -364,9 +354,9 @@ module phoenix {
             $("#browserInfo-userAgent").html(this.browserInfo.userAgent);
             $("#fb-page-infodetail").html('').append(this.browserInfo.currentUrl);
             $("#fb-html-infodetail").text(this.browserInfo.html);
-            this.browserInfo.screenSnapshot = this.html2Canvas(this.documentWidth,this.documentHeight);
+            this.browserInfo.screenSnapshot = this.html2Canvas(this.documentWidth, this.documentHeight);
         }
-        private html2Canvas(documentWidth: number, docoumentheight:number): any {
+        private html2Canvas(documentWidth: number, docoumentheight: number): any {
             var sy = $(document).scrollTop();
             var img;
             html2canvas($('body'), {
@@ -440,11 +430,7 @@ module phoenix {
                     isSuccessfull: true,
                     result:
                     this.moduleTag +
-                    this.description.responseText +
-                    this.highlighter.responseText +
-                    this.overview.responseText +
-                    this.submitSuccess.responseText +
-                    this.submitError.responseText +
+                    this.contentTemplate.responseText.replace($('#fb-browser-notsupport').html(), '') +
                     this.convasTag +
                     this.helperTag +
                     this.noteTag + this.endTag
@@ -452,7 +438,13 @@ module phoenix {
             return {
                 isSuccessfull: false,
                 result: this.moduleTag +
-                this.browserNotSupport.responseText +
+                this.contentTemplate.responseText
+                    .replace($('#fb-description').html(), '')
+                    .replace($('#fb-highlighter').html(), '')
+                    .replace($('#fb-overview').html(), '')
+                    .replace($('#fb-submit-success').html(), '')
+                    .replace($('#fb-submit-error').html(),'')
+                +
                 this.endTag
             }
         }
@@ -464,22 +456,10 @@ module phoenix {
             public onStart: () => void = function () { },
             public onClose: () => void = function () { },
             public url: string= "localhost/send",
-            private contentTemplate: any = {
-                description: "../src/templates/fa-Ir/description.html",
-                highlighter: "../src/templates/fa-Ir/highlighter.html",
-                overview: "../src/templates/fa-Ir/overview.html",
-                submitSuccess: "../src/templates/fa-Ir/submitSuccess.html",
-                submitError: "../src/templates/fa-Ir/submitError.html",
-                browserNotSupport: "../src/templates/fa-Ir/browserNotSupport.html",
-            }) {
+            private contentTemplate: string = "../src/templates/fa-Ir/template.html") {
             this.fb_Content = new feedbackContent(
                 this.url,
-                this.contentTemplate.description,
-                this.contentTemplate.highlighter,
-                this.contentTemplate.overview,
-                this.contentTemplate.submitSuccess,
-                this.contentTemplate.submitError,
-                this.contentTemplate.browserNotSupport,
+                this.contentTemplate,
                 this.onClose);
         }
         public getfbTemplate(): actionResult<HTMLAnchorElement> {
@@ -506,7 +486,7 @@ module phoenix {
                 }
             }
         }
-        private html2ConvasSupport: boolean = true;// !!window.HTMLCanvasElement; //FIXME
+        private html2ConvasSupport: boolean = !!window.HTMLCanvasElement;
     }
     export class feedback {
         constructor(private $element: string, private feedbackOptions: feedbackOptions) {
