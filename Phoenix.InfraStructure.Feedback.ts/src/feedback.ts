@@ -348,6 +348,7 @@ module phoenix {
             $('#fb-overview-error').hide();
         }
         private nextToOverview(): void {
+            $('html, body').scrollTop(0);
             this.canDraw = false;
             $('#fb-screenshot').html('')
             $("#loading-screenshot").fadeIn();
@@ -363,20 +364,18 @@ module phoenix {
             $("#browserInfo-userAgent").html(this.browserInfo.userAgent);
             $("#fb-page-infodetail").html('').append(this.browserInfo.currentUrl);
             $("#fb-html-infodetail").text(this.browserInfo.html);
-            this.browserInfo.screenSnapshot = this.html2Canvas(this.documentWidth);
+            this.browserInfo.screenSnapshot = this.html2Canvas(this.documentWidth,this.documentHeight);
         }
-        private html2Canvas(documentWidth: number): any {
-            var sy = $(document).scrollTop(),
-                wh = $(document).height();
+        private html2Canvas(documentWidth: number, docoumentheight:number): any {
+            var sy = $(document).scrollTop();
             var img;
-
             html2canvas($('body'), {
                 onrendered: function (canvas) {
-                    var _canvas = $('<canvas id="fb-canvas-tmp" dir="rtl" width="' + documentWidth + '" height="' + wh + '"/>').hide().appendTo('body');
+                    var _canvas = $('<canvas id="fb-canvas-tmp" dir="rtl" width="' + documentWidth + '" height="' + docoumentheight + '"/>').hide().appendTo('body');
                     var _ctx = _canvas.get(0).getContext('2d');
                     _ctx.fillStyle = "#000";
                     _ctx.font = "bold 16px Arial";
-                    _ctx.drawImage(canvas, 0, sy, documentWidth, wh, 0, 0, documentWidth, wh);
+                    _ctx.drawImage(canvas, 0, sy, documentWidth, docoumentheight, 0, 0, documentWidth, docoumentheight);
                     img = _canvas.get(0).toDataURL();
                     $(document).scrollTop(sy);
                     $('#fb-canvas-tmp').remove();
@@ -434,7 +433,6 @@ module phoenix {
                 }
             });
         }
-
         public getfbTemplate(html2canvasSupport: boolean): actionResult<HTMLAnchorElement> {
 
             if (html2canvasSupport)
