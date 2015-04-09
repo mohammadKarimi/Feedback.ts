@@ -53,7 +53,7 @@ JavaScript:
         var options = new phoenix.feedbackOptions(onStart, onClose);
         new phoenix.feedback("content", options);
 ```
-## Options
+## phoenix.feedbackOptions
 + onStart : function (Optional) -> this method call befor feedback module is opened.
 + onClose : function (Optional) -> this method call after feedback module is closed.
 + url : string (Optional) -> this property for send feedback data to custom ajax url.
