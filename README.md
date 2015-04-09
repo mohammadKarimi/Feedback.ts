@@ -57,18 +57,14 @@ JavaScript:
 + onStart : function (Optional) -> this method call befor feedback module is opened.
 + onClose : function (Optional) -> this method call after feedback module is closed.
 + url : string (Optional) -> this property for send feedback data to custom ajax url.
-+ contentTemplate : any (Optional) -> this object contains all html templates in server
-# contentTemplate default : 
-   + description: "../src/templates/fa-Ir/description.html"
-   + highlighter: "../src/templates/fa-Ir/description.html"
-   + overview:    "../src/templates/fa-Ir/description.html"
-   + submitSuccess: "../src/templates/fa-Ir/description.html"
-   + submitError: "../src/templates/fa-Ir/description.html"
-   + browserNotSupport: "../src/templates/fa-Ir/description.html"
-   
-   *in new version all of them merged into one file*
++ contentTemplate : string (Optional) -> this string is address of templates in server
+# contentTemplate default : "../src/templates/fa-Ir/templates.html"
+ 
    
 ## Change log
+***09.04.2015***
++ Merg All template files such as description.html,highlighter.html ,.... into one html file templates.html
+
 ***31.03.2015***
 + add order number of highlighter box
 + add highlightTextbox under the lighter box for type additional description for each highlighter box
