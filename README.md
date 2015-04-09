@@ -5,6 +5,7 @@ This script allows you to create feedback forms which include a screenshot And c
 Feedback tool similar to the Google Feedback based on Typescript/JQuery and HTML2Canvas.
 ##Demo
 + http://mohammadkarimi.github.io/Feedback.ts/
+
 ## Browser Support
 + Internet Explorer +9
 + All versions Of Google Chrome
