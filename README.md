@@ -3,6 +3,8 @@ feedback module with Typescript
 
 This script allows you to create feedback forms which include a screenshot And clients browser Information .
 Feedback tool similar to the Google Feedback based on Typescript/JQuery and HTML2Canvas.
+##Demo
++ http://mohammadkarimi.github.io/Feedback.ts/
 
 ## Browser Support
 + Internet Explorer +9
