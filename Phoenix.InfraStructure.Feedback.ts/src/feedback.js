@@ -1,4 +1,4 @@
-var __extends = this.__extends || function (d, b) {
+﻿var __extends = this.__extends || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     __.prototype = b.prototype;
@@ -313,7 +313,7 @@ var phoenix;
             $('#fb-description').show();
         };
         feedbackContent.prototype.draggableHighlighterbox = function (event) {
-            var $fb_highlighter = $(event.target).addClass('fb-draggable'), drag_h = $fb_highlighter.outerHeight(), drag_w = $fb_highlighter.outerWidth(), pos_y = $fb_highlighter.offset().top + drag_h - event.pageY, pos_x = $fb_highlighter.offset().left + drag_w - event.pageX;
+            var $fb_highlighter = $("#fb-highlighter").addClass('fb-draggable'), drag_h = $fb_highlighter.outerHeight(), drag_w = $fb_highlighter.outerWidth(), pos_y = $fb_highlighter.offset().top + drag_h - event.pageY, pos_x = $fb_highlighter.offset().left + drag_w - event.pageX;
             $fb_highlighter.css('z-index', 40000).parent().on('mousemove', function (e) {
                 var _top = e.pageY + pos_y - drag_h;
                 var _left = e.pageX + pos_x - drag_w;

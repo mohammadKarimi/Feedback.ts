@@ -286,7 +286,7 @@ module phoenix {
             $('#fb-description').show();
         }
         private draggableHighlighterbox(event: JQueryEventObject): void {
-            var $fb_highlighter = $(event.target).addClass('fb-draggable'),
+            var $fb_highlighter = $("#fb-highlighter").addClass('fb-draggable'),
                 drag_h = $fb_highlighter.outerHeight(),
                 drag_w = $fb_highlighter.outerWidth(),
                 pos_y = $fb_highlighter.offset().top + drag_h - event.pageY,
