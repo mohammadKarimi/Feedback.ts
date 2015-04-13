@@ -189,8 +189,7 @@
 #fb-overview {
     display: none;
     top: 10%;
-    left: 50%;
-    margin-left: -420px;
+    left:25%;
     position: fixed;
     width: 680px !important;
 }
